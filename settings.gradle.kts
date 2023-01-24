@@ -13,11 +13,11 @@ dependencyResolutionManagement {
     repositories {
         google()
         mavenCentral()
+        mavenLocal()
     }
 }
 
 rootProject.name = "KotlinMultiplatformSandbox"
 include(
-    ":androidApp",
-    ":shared"
+    ":androidApp"
 )

@@ -53,8 +53,8 @@ android {
 }
 
 dependencies {
-    // Importing shared module with typesafe gradle accessor
-    implementation(projects.shared)
+    // Importing shared kmm logic from mavenLocal repo
+    implementation(libs.kotlinmultiplatformsandbox.shared)
 
     // All compose ui related dependencies bundle
     implementation(libs.bundles.compose)

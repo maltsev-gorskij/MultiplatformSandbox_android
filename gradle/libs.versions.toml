@@ -19,6 +19,7 @@ koin_compose = "3.4.1"
 junit = "4.13.2"
 mockito = "4.6.0"
 android_core_testing = "2.1.0"
+kotlinmultiplatformsandbox_shared = "1.0"
 
 [libraries]
 gradleplugins-android = { module = "com.android.tools.build:gradle", version.ref = "android_plugin" }
@@ -63,6 +64,8 @@ junit = { module = "junit:junit", version.ref = "junit" }
 
 mockito = { module = "org.mockito:mockito-core", version.ref = "mockito" }
 android-core-testing = { module = "androidx.arch.core:core-testing", version.ref = "android_core_testing" }
+
+kotlinmultiplatformsandbox_shared = { module = "ru.lyrian.kotlinmultiplatformsandbox:shared", version.ref = "kotlinmultiplatformsandbox_shared" }
 
 [bundles]
 ktor-common = [
