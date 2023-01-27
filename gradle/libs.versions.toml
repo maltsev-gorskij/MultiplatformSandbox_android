@@ -20,11 +20,14 @@ mockito = "5.0.0"
 android_core_testing = "2.1.0"
 gradle_versions = "0.44.0"
 kotlinmultiplatformsandbox_shared = "1.0"
+detekt = "1.22.0"
+detekt_compose_rules = "1.2.2"
 
 [libraries]
 gradleplugins-android = { module = "com.android.tools.build:gradle", version.ref = "android_plugin" }
 gradleplugins-kotlin = { module = "org.jetbrains.kotlin:kotlin-gradle-plugin", version.ref = "kotlin" }
 gradleplugins-versions = { module = "com.github.ben-manes:gradle-versions-plugin", version.ref = "gradle_versions"}
+gradleplugins-detekt = { module = "io.gitlab.arturbosch.detekt:detekt-gradle-plugin", version.ref = "detekt" }
 
 datetime = { module = "org.jetbrains.kotlinx:kotlinx-datetime", version.ref = "datetime" }
 
@@ -56,8 +59,10 @@ android-core-testing = { module = "androidx.arch.core:core-testing", version.ref
 
 kotlinmultiplatformsandbox_shared = { module = "ru.lyrian.kotlinmultiplatformsandbox:shared", version.ref = "kotlinmultiplatformsandbox_shared" }
 
-[bundles]
+detekt-cli = { module = "io.gitlab.arturbosch.detekt:detekt-cli", version.ref = "detekt" }
+detekt-rules-compose = { module = "ru.kode:detekt-rules-compose", version.ref = "detekt_compose_rules" }
 
+[bundles]
 compose = [
     "compose-ui",
     "compose-uitooling",

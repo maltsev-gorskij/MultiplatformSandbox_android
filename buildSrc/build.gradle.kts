@@ -13,4 +13,5 @@ dependencies {
     implementation(libs.gradleplugins.android)
     implementation(libs.gradleplugins.kotlin)
     implementation(libs.gradleplugins.versions)
+    implementation(libs.gradleplugins.detekt)
 }
