@@ -1,4 +1,4 @@
-package ru.lyrian.kotlinmultiplatformsandbox.android.core.ui
+package ru.lyrian.kotlinmultiplatformsandbox.android.core.extentions
 
 import android.app.Activity
 import android.widget.Toast

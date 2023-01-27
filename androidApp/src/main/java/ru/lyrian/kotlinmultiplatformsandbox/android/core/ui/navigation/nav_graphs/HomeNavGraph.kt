@@ -29,7 +29,7 @@ fun HomeNavGraph(
     ) {
         composable(NavDestinations.HomeNavGraph.LAUNCHES) {
             LaunchesListScreen(
-                onLaunchClicked = { id ->
+                onLaunchClick = { id ->
                     navController.navigateToLaunchDetails(id)
                 }
             )

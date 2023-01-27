@@ -18,12 +18,12 @@ fun SandboxTheme(
     content: @Composable () -> Unit
 ) {
     val colors = lightColors(
-        primary = Color(0xFF37474f),
-        primaryVariant = Color(0xFF102027),
-        secondaryVariant = Color(0xFF018786),
+        primary = SandboxThemeColors.primary,
+        primaryVariant = SandboxThemeColors.primaryVariant,
+        secondaryVariant = SandboxThemeColors.secondaryVariant,
         background = Color.White,
         surface = Color.White,
-        error = Color(0xFFB00020),
+        error = SandboxThemeColors.error,
         onPrimary = Color.White,
         onSecondary = Color.Black,
         onBackground = Color.Black,

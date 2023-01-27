@@ -1,6 +1,7 @@
 package ru.lyrian.kotlinmultiplatformsandbox.android.core.ui.composables.images
 
 import androidx.compose.foundation.layout.Box
+import androidx.compose.foundation.layout.fillMaxSize
 import androidx.compose.material.CircularProgressIndicator
 import androidx.compose.runtime.Composable
 import androidx.compose.runtime.getValue
@@ -18,13 +19,13 @@ import coil.compose.AsyncImage
  * */
 @Composable
 fun ImageFromUrl(
-    modifier: Modifier = Modifier,
     model: String,
-    contentDescription: String? = null,
+    modifier: Modifier = Modifier,
     contentScale: ContentScale = ContentScale.Fit,
     onImageLoading: () -> Unit = {},
     onImageLoadSuccess: () -> Unit = {},
     onImageLoadError: () -> Unit = {},
+    contentDescription: String? = null,
     error: Painter? = null,
 ) {
     var isLoading by remember { mutableStateOf(false) }
@@ -33,7 +34,7 @@ fun ImageFromUrl(
         contentAlignment = Alignment.Center
     ) {
         AsyncImage(
-            modifier = modifier,
+            modifier = Modifier.fillMaxSize(),
             model = model,
             contentDescription = contentDescription,
             contentScale = contentScale,

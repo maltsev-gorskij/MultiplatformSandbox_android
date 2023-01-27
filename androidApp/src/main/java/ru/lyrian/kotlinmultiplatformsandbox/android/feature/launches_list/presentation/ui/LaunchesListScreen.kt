@@ -36,7 +36,7 @@ import ru.lyrian.kotlinmultiplatformsandbox.feature.launches.domain.RocketLaunch
 
 @Composable
 fun LaunchesListScreen(
-    onLaunchClicked: (String) -> Unit
+    onLaunchClick: (String) -> Unit
 ) {
     val viewModel = getViewModel<LaunchesListViewModel>()
     val currentViewState by viewModel.viewState.collectAsState()
@@ -63,7 +63,7 @@ fun LaunchesListScreen(
             LaunchesList(
                 viewState = currentViewState,
                 onRefresh = { viewModel.refresh(true) },
-                onLaunchClicked = onLaunchClicked
+                onLaunchClick = onLaunchClick
             )
         }
     }
@@ -94,7 +94,7 @@ private fun LaunchesHeader() {
 private fun LaunchesList(
     viewState: LaunchesListState,
     onRefresh: () -> Unit,
-    onLaunchClicked: (String) -> Unit
+    onLaunchClick: (String) -> Unit
 ) {
     val pullRefreshState = rememberPullRefreshState(
         refreshing = viewState.isLoading,
@@ -104,7 +104,7 @@ private fun LaunchesList(
     Box(modifier = Modifier.pullRefresh(pullRefreshState)) {
         LaunchesListContent(
             viewState = viewState,
-            onLaunchClicked = onLaunchClicked
+            onLaunchClick = onLaunchClick
         )
         PullRefreshIndicator(
             refreshing = viewState.isLoading,
@@ -119,7 +119,7 @@ private fun LaunchesList(
 @Composable
 private fun LaunchesListContent(
     viewState: LaunchesListState,
-    onLaunchClicked: (String) -> Unit
+    onLaunchClick: (String) -> Unit
 ) {
     LazyColumn(
         modifier = Modifier.fillMaxSize(),
@@ -140,7 +140,7 @@ private fun LaunchesListContent(
             items(items = viewState.launches) {
                 LaunchesListItem(
                     rocketLaunch = it,
-                    onLaunchClicked = { onLaunchClicked(it.id) }
+                    onLaunchClick = { onLaunchClick(it.id) }
                 )
             }
         }
@@ -150,12 +150,12 @@ private fun LaunchesListContent(
 @Composable
 private fun LaunchesListItem(
     rocketLaunch: RocketLaunch,
-    onLaunchClicked: () -> Unit
+    onLaunchClick: () -> Unit
 ) {
     Card(
         modifier = Modifier
             .fillMaxWidth()
-            .clickable { onLaunchClicked() },
+            .clickable { onLaunchClick() },
         shape = MaterialTheme.shapes.large
     ) {
         Column(

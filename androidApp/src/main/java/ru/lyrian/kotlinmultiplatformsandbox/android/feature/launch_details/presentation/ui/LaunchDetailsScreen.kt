@@ -45,7 +45,7 @@ import ru.lyrian.kotlinmultiplatformsandbox.feature.launches.domain.RocketLaunch
 
 @Composable
 fun LaunchDetailsScreen(
-    onNavigateBackClicked: () -> Unit,
+    onNavigateBackClick: () -> Unit,
     modifier: Modifier = Modifier
 ) {
     val viewModel = getViewModel<LaunchDetailsViewModel>()
@@ -66,7 +66,7 @@ fun LaunchDetailsScreen(
         topBar = {
             LaunchDetailsTopBar(
                 title = state.launch?.missionName,
-                onNavigateBackClicked = onNavigateBackClicked
+                onNavigateBackClick = onNavigateBackClick
             )
         },
         modifier = modifier
@@ -84,7 +84,7 @@ fun LaunchDetailsScreen(
 @Composable
 private fun LaunchDetailsTopBar(
     title: String?,
-    onNavigateBackClicked: () -> Unit,
+    onNavigateBackClick: () -> Unit,
     modifier: Modifier = Modifier
 ) {
     TopAppBar(
@@ -92,7 +92,7 @@ private fun LaunchDetailsTopBar(
             Text(text = title.orEmpty(), style = MaterialTheme.typography.h6)
         },
         navigationIcon = {
-            IconButton(onClick = onNavigateBackClicked) {
+            IconButton(onClick = onNavigateBackClick) {
                 Icon(imageVector = Icons.Default.ArrowBack, contentDescription = "Back")
             }
         },

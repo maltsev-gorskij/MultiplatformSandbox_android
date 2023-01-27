@@ -19,7 +19,7 @@ fun NavGraphBuilder.detailsNavGraph(
     ) {
         composable("${NavDestinations.DetailsNavGraph.DETAILS}/{$LAUNCH_ID_ARG}") {
             LaunchDetailsScreen(
-                onNavigateBackClicked = onNavigateBack,
+                onNavigateBackClick = onNavigateBack,
                 modifier = Modifier.fillMaxSize()
             )
         }
