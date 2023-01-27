@@ -137,7 +137,7 @@ private fun LaunchesListContent(
                 }
             }
         } else {
-            items(items = viewState.launches) {
+            items(items = viewState.launches, key = { it.id }) {
                 LaunchesListItem(
                     rocketLaunch = it,
                     onLaunchClick = { onLaunchClick(it.id) }

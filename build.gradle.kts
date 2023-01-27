@@ -43,13 +43,24 @@ task<Copy>("enableGitHooks") {
     fileMode = 0b111101101 // make files executable
 }
 
+// Unregister task to run pre-commit detekt checks
+task<Delete>("disableGitHooks") {
+    group = "git hooks"
+    delete = setOf(
+        fileTree("${rootProject.rootDir}/.git/hooks/") {
+            include("*")
+        }
+    )
+}
+
 dependencies {
     detekt(libs.detekt.cli)
     detektPlugins(libs.detekt.rules.compose)
 }
 
 // Global project properties
-val appVersion by extra("1.0")
+val appName by extra("SpaceX Launches")
+val versionName by extra("1.0")
 val versionCode by extra(1)
 val compileSdk by extra(33)
 val minSdk by extra(21)
