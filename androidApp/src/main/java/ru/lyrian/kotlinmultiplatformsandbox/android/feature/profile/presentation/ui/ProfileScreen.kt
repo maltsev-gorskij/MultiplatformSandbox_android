@@ -34,9 +34,9 @@ fun ProfileScreen(
             userName = state.userName,
             text = state.encryptedText,
             isSaveEnabled = state.isSaveEnabled,
-            onUserNameChanged = viewModel::updateUserName,
-            onTextChanged = viewModel::updateEncryptedText,
-            onSaveClicked = viewModel::saveProfile,
+            onUserNameChange = viewModel::updateUserName,
+            onTextChange = viewModel::updateEncryptedText,
+            onSaveClick = viewModel::saveProfile,
             modifier = Modifier
                 .padding(it)
                 .fillMaxSize()
@@ -49,9 +49,9 @@ private fun ProfileContent(
     userName: String,
     text: String,
     isSaveEnabled: Boolean,
-    onUserNameChanged: (String) -> Unit,
-    onTextChanged: (String) -> Unit,
-    onSaveClicked: () -> Unit,
+    onUserNameChange: (String) -> Unit,
+    onTextChange: (String) -> Unit,
+    onSaveClick: () -> Unit,
     modifier: Modifier = Modifier
 ) {
 
@@ -68,7 +68,7 @@ private fun ProfileContent(
         ) {
             TextField(
                 value = userName,
-                onValueChange = onUserNameChanged,
+                onValueChange = onUserNameChange,
                 label = { Text(text = "Username") },
                 placeholder = { Text(text = "Enter your name") },
                 singleLine = true,
@@ -77,7 +77,7 @@ private fun ProfileContent(
 
             TextField(
                 value = text,
-                onValueChange = onTextChanged,
+                onValueChange = onTextChange,
                 label = { Text(text = "Encrypted text") },
                 placeholder = { Text(text = "Enter your text") },
                 singleLine = true,
@@ -86,7 +86,7 @@ private fun ProfileContent(
         }
 
         Button(
-            onClick = onSaveClicked,
+            onClick = onSaveClick,
             enabled = isSaveEnabled,
             modifier = Modifier
                 .align(Alignment.BottomCenter)
