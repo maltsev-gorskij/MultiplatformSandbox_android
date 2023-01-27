@@ -14,13 +14,18 @@ import androidx.navigation.compose.composable
 import ru.lyrian.kotlinmultiplatformsandbox.android.core.ui.navigation.bottom_navigation.BottomNavItems
 import ru.lyrian.kotlinmultiplatformsandbox.android.core.ui.navigation.destinations.NavDestinations
 import ru.lyrian.kotlinmultiplatformsandbox.android.feature.launches_list.presentation.ui.LaunchesListScreen
+import ru.lyrian.kotlinmultiplatformsandbox.android.feature.profile.presentation.ui.ProfileScreen
 
 @Composable
-fun HomeNavGraph(navController: NavHostController) {
+fun HomeNavGraph(
+    navController: NavHostController,
+    modifier: Modifier = Modifier
+) {
     NavHost(
         navController = navController,
         route = NavGraphsDestinations.HOME,
-        startDestination = BottomNavItems.Launches.route
+        startDestination = BottomNavItems.Launches.route,
+        modifier = modifier.fillMaxSize()
     ) {
         composable(NavDestinations.HomeNavGraph.LAUNCHES) {
             LaunchesListScreen(
@@ -40,14 +45,9 @@ fun HomeNavGraph(navController: NavHostController) {
             }
         }
         composable(BottomNavItems.Profile.route) {
-            Surface(modifier = Modifier.fillMaxSize()) {
-                Box {
-                    Text(
-                        modifier = Modifier.align(Alignment.Center),
-                        text = "Profile placeholder"
-                    )
-                }
-            }
+            ProfileScreen(
+                modifier = Modifier.fillMaxSize()
+            )
         }
         detailsNavGraph(
             onNavigateBack = { navController.popBackStack() }
