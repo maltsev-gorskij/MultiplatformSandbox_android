@@ -1,4 +1,4 @@
-package ru.lyrian.kotlinmultiplatformsandbox.android.feature.launchesList.presentation.model
+package ru.lyrian.kotlinmultiplatformsandbox.android.feature.launches_list.presentation.model
 
 import ru.lyrian.kotlinmultiplatformsandbox.feature.launches.domain.RocketLaunch
 

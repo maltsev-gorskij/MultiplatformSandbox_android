@@ -1,4 +1,4 @@
-package ru.lyrian.kotlinmultiplatformsandbox.android.core.ui.bottomNavigation
+package ru.lyrian.kotlinmultiplatformsandbox.android.core.ui.navigation.bottom_navigation
 
 import androidx.compose.animation.AnimatedVisibility
 import androidx.compose.animation.slideInVertically
@@ -27,7 +27,7 @@ fun BottomNavigationBar(navController: NavHostController) {
 
     val navBackStackEntry by navController.currentBackStackEntryAsState()
     val currentRoute = navBackStackEntry?.destination?.route
-    var shouldShowBottomNavBar by rememberSaveable { (mutableStateOf(true)) }
+    var shouldShowBottomNavBar by rememberSaveable { mutableStateOf(true) }
 
     LaunchedEffect(key1 = currentRoute) {
         shouldShowBottomNavBar = items.any { it.route == currentRoute }
@@ -58,8 +58,8 @@ private fun BottomNavBarContent(
                 selected = currentRoute == item.route,
                 onClick = {
                     navController.navigate(item.route) {
-                        navController.graph.startDestinationRoute?.let { screen_route ->
-                            popUpTo(screen_route) {
+                        navController.graph.startDestinationRoute?.let { screenRoute ->
+                            popUpTo(screenRoute) {
                                 saveState = true
                             }
                         }

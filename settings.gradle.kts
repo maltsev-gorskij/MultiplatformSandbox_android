@@ -8,7 +8,6 @@ pluginManagement {
     }
 }
 
-@Suppress("UnstableApiUsage")
 dependencyResolutionManagement {
     repositories {
         google()
@@ -17,7 +16,7 @@ dependencyResolutionManagement {
     }
 }
 
-rootProject.name = "KotlinMultiplatformSandbox"
+rootProject.name = "KMMSandbox_android"
 include(
     ":androidApp"
 )

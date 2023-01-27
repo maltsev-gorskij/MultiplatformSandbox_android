@@ -1,4 +1,4 @@
-package ru.lyrian.kotlinmultiplatformsandbox.android.feature.launchesList.presentation.ui
+package ru.lyrian.kotlinmultiplatformsandbox.android.feature.launches_list.presentation.ui
 
 import android.widget.Toast
 import androidx.compose.foundation.clickable
@@ -12,10 +12,14 @@ import androidx.compose.foundation.layout.padding
 import androidx.compose.foundation.lazy.LazyColumn
 import androidx.compose.foundation.lazy.items
 import androidx.compose.material.Card
+import androidx.compose.material.ExperimentalMaterialApi
 import androidx.compose.material.LocalTextStyle
 import androidx.compose.material.MaterialTheme
 import androidx.compose.material.Surface
 import androidx.compose.material.Text
+import androidx.compose.material.pullrefresh.PullRefreshIndicator
+import androidx.compose.material.pullrefresh.pullRefresh
+import androidx.compose.material.pullrefresh.rememberPullRefreshState
 import androidx.compose.runtime.Composable
 import androidx.compose.runtime.LaunchedEffect
 import androidx.compose.runtime.collectAsState
@@ -25,16 +29,15 @@ import androidx.compose.ui.Modifier
 import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.platform.LocalContext
 import androidx.compose.ui.unit.dp
-import com.google.accompanist.swiperefresh.SwipeRefresh
-import com.google.accompanist.swiperefresh.SwipeRefreshIndicator
-import com.google.accompanist.swiperefresh.rememberSwipeRefreshState
 import org.koin.androidx.compose.getViewModel
-import ru.lyrian.kotlinmultiplatformsandbox.android.feature.launchesList.presentation.model.LaunchesListState
-import ru.lyrian.kotlinmultiplatformsandbox.android.feature.launchesList.presentation.viewmodel.LaunchesListViewModel
+import ru.lyrian.kotlinmultiplatformsandbox.android.feature.launches_list.presentation.model.LaunchesListState
+import ru.lyrian.kotlinmultiplatformsandbox.android.feature.launches_list.presentation.viewmodel.LaunchesListViewModel
 import ru.lyrian.kotlinmultiplatformsandbox.feature.launches.domain.RocketLaunch
 
 @Composable
-fun LaunchesListScreen(onLaunchClicked: () -> Unit) {
+fun LaunchesListScreen(
+    onLaunchClicked: (String) -> Unit
+) {
     val viewModel = getViewModel<LaunchesListViewModel>()
     val currentViewState by viewModel.viewState.collectAsState()
     val context = LocalContext.current
@@ -86,29 +89,29 @@ private fun LaunchesHeader() {
     }
 }
 
-@Suppress("DEPRECATION")
+@OptIn(ExperimentalMaterialApi::class)
 @Composable
 private fun LaunchesList(
     viewState: LaunchesListState,
     onRefresh: () -> Unit,
-    onLaunchClicked: () -> Unit
+    onLaunchClicked: (String) -> Unit
 ) {
-    val swipeRefreshState = rememberSwipeRefreshState(isRefreshing = viewState.isLoading)
+    val pullRefreshState = rememberPullRefreshState(
+        refreshing = viewState.isLoading,
+        onRefresh = onRefresh
+    )
 
-    SwipeRefresh(
-        state = swipeRefreshState,
-        onRefresh = onRefresh,
-        indicator = { state, trigger ->
-            SwipeRefreshIndicator(
-                state = state,
-                refreshTriggerDistance = trigger,
-                scale = true
-            )
-        }
-    ) {
+    Box(modifier = Modifier.pullRefresh(pullRefreshState)) {
         LaunchesListContent(
             viewState = viewState,
             onLaunchClicked = onLaunchClicked
+        )
+        PullRefreshIndicator(
+            refreshing = viewState.isLoading,
+            state = pullRefreshState,
+            scale = true,
+            modifier = Modifier
+                .align(Alignment.TopCenter)
         )
     }
 }
@@ -116,7 +119,7 @@ private fun LaunchesList(
 @Composable
 private fun LaunchesListContent(
     viewState: LaunchesListState,
-    onLaunchClicked: () -> Unit
+    onLaunchClicked: (String) -> Unit
 ) {
     LazyColumn(
         modifier = Modifier.fillMaxSize(),
@@ -137,7 +140,7 @@ private fun LaunchesListContent(
             items(items = viewState.launches) {
                 LaunchesListItem(
                     rocketLaunch = it,
-                    onLaunchClicked = onLaunchClicked
+                    onLaunchClicked = { onLaunchClicked(it.id) }
                 )
             }
         }
