@@ -1,6 +1,5 @@
 package ru.lyrian.kotlinmultiplatformsandbox.android.feature.launches_list.presentation.viewmodel
 
-import android.util.Log
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
 import kotlinx.coroutines.CoroutineExceptionHandler
@@ -12,8 +11,7 @@ import kotlinx.coroutines.flow.update
 import kotlinx.coroutines.launch
 import ru.lyrian.kotlinmultiplatformsandbox.android.feature.launches_list.presentation.model.LaunchesListState
 import ru.lyrian.kotlinmultiplatformsandbox.android.feature.launches_list.presentation.ui.LaunchesListEvent
-import ru.lyrian.kotlinmultiplatformsandbox.core.constants.LoggingConstants.APP_LOG_TAG
-import ru.lyrian.kotlinmultiplatformsandbox.core.constants.LoggingConstants.EXCEPTION_PREFIX
+import ru.lyrian.kotlinmultiplatformsandbox.core.logger.SharedLogger
 import ru.lyrian.kotlinmultiplatformsandbox.feature.launches.domain.LaunchesInteractor
 
 class LaunchesListViewModel constructor(
@@ -27,7 +25,12 @@ class LaunchesListViewModel constructor(
 
     private val coroutineExceptionHandler = CoroutineExceptionHandler { _, throwable ->
         viewModelScope.launch {
-            Log.e(APP_LOG_TAG, EXCEPTION_PREFIX, throwable)
+            SharedLogger.logError(
+                message = "Failed loading launches",
+                throwable = throwable,
+                tag = this.javaClass.simpleName
+
+            )
             _event.send(LaunchesListEvent.ShowToast("Update failed" + throwable.localizedMessage?.let { ": $it" }))
 
             _viewState.update {
