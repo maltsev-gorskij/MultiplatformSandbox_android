@@ -17,7 +17,9 @@ import androidx.compose.runtime.getValue
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.unit.dp
+import dev.icerock.moko.resources.compose.stringResource
 import org.koin.androidx.compose.getViewModel
+import ru.lyrian.kotlinmultiplatformsandbox.Resources
 import ru.lyrian.kotlinmultiplatformsandbox.android.feature.profile.presentation.viewmodel.ProfileViewModel
 
 @Composable
@@ -69,8 +71,8 @@ private fun ProfileContent(
             TextField(
                 value = userName,
                 onValueChange = onUserNameChange,
-                label = { Text(text = "Username") },
-                placeholder = { Text(text = "Enter your name") },
+                label = { Text(text = stringResource(resource = Resources.strings.profile_username_title)) },
+                placeholder = { Text(text = stringResource(resource = Resources.strings.profile_username_hint)) },
                 singleLine = true,
                 modifier = Modifier.fillMaxWidth()
             )
@@ -78,8 +80,8 @@ private fun ProfileContent(
             TextField(
                 value = text,
                 onValueChange = onTextChange,
-                label = { Text(text = "Encrypted text") },
-                placeholder = { Text(text = "Enter your text") },
+                label = { Text(text = stringResource(resource = Resources.strings.profile_text_title)) },
+                placeholder = { Text(text = stringResource(resource = Resources.strings.profile_text_hint)) },
                 singleLine = true,
                 modifier = Modifier.fillMaxWidth()
             )
@@ -93,7 +95,7 @@ private fun ProfileContent(
                 .fillMaxWidth()
         ) {
             Text(
-                text = "Save",
+                text = stringResource(resource = Resources.strings.common_save),
                 style = MaterialTheme.typography.button,
                 modifier = Modifier.padding(vertical = 12.dp)
             )

@@ -87,6 +87,9 @@ dependencies {
     implementation(libs.koin.android)
     implementation(libs.koin.compose)
 
+    // Multiplatform resources
+    implementation(libs.resources.compose)
+
     // Unit testing
     testImplementation(libs.koin.test)
     testImplementation(libs.koin.test.junit)

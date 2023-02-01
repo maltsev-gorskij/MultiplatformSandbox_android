@@ -16,6 +16,7 @@ import androidx.compose.runtime.setValue
 import androidx.compose.ui.res.painterResource
 import androidx.navigation.NavHostController
 import androidx.navigation.compose.currentBackStackEntryAsState
+import dev.icerock.moko.resources.compose.stringResource
 
 @Composable
 fun BottomNavigationBar(navController: NavHostController) {
@@ -54,6 +55,7 @@ private fun BottomNavBarContent(
 ) {
     BottomNavigation {
         items.forEach { item: BottomNavItems ->
+            val title = stringResource(resource = item.titleResource)
             BottomNavigationItem(
                 selected = currentRoute == item.route,
                 onClick = {
@@ -70,10 +72,10 @@ private fun BottomNavBarContent(
                 icon = {
                     Icon(
                         painter = painterResource(id = item.icon),
-                        contentDescription = item.title
+                        contentDescription = title
                     )
                 },
-                label = { Text(text = item.title) },
+                label = { Text(text = title) },
                 alwaysShowLabel = false,
             )
         }
