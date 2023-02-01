@@ -29,7 +29,9 @@ import androidx.compose.ui.Modifier
 import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.platform.LocalContext
 import androidx.compose.ui.unit.dp
+import dev.icerock.moko.resources.compose.stringResource
 import org.koin.androidx.compose.getViewModel
+import ru.lyrian.kotlinmultiplatformsandbox.Resources
 import ru.lyrian.kotlinmultiplatformsandbox.android.feature.launches_list.presentation.model.LaunchesListState
 import ru.lyrian.kotlinmultiplatformsandbox.android.feature.launches_list.presentation.viewmodel.LaunchesListViewModel
 import ru.lyrian.kotlinmultiplatformsandbox.feature.launches.domain.RocketLaunch
@@ -82,7 +84,7 @@ private fun LaunchesHeader() {
                 modifier = Modifier
                     .align(Alignment.CenterStart)
                     .padding(16.dp),
-                text = "SpaceX Launches",
+                text = stringResource(resource = Resources.strings.launches_header_text),
                 style = MaterialTheme.typography.h6
             )
         }
@@ -152,10 +154,16 @@ private fun LaunchesListItem(
     rocketLaunch: RocketLaunch,
     onLaunchClick: () -> Unit
 ) {
+    val successTextResource = if (rocketLaunch.launchSuccess == true) {
+        Resources.strings.launch_card_successful
+    } else {
+        Resources.strings.launch_card_unsuccessful
+    }
+
     Card(
         modifier = Modifier
             .fillMaxWidth()
-            .clickable { onLaunchClick() },
+            .clickable(onClick = onLaunchClick),
         shape = MaterialTheme.shapes.large
     ) {
         Column(
@@ -165,11 +173,11 @@ private fun LaunchesListItem(
             verticalArrangement = Arrangement.spacedBy(6.dp)
         ) {
             Text(
-                text = "Launch name: ${rocketLaunch.missionName}",
+                text = stringResource(resource = Resources.strings.launch_card_name, rocketLaunch.missionName),
                 style = MaterialTheme.typography.caption
             )
             Text(
-                text = if (rocketLaunch.launchSuccess == true) "Successful" else "Unsuccessful",
+                text = stringResource(resource = successTextResource),
                 style = MaterialTheme.typography.caption.copy(
                     color = if (rocketLaunch.launchSuccess == false) {
                         MaterialTheme.colors.error
@@ -179,13 +187,15 @@ private fun LaunchesListItem(
                 )
             )
             Text(
-                text = "Launch year: ${rocketLaunch.launchYear}",
+                text = stringResource(resource = Resources.strings.launch_card_year, rocketLaunch.launchYear),
                 style = MaterialTheme.typography.caption
             )
-            Text(
-                text = "Launch details: ${rocketLaunch.details ?: ""}",
-                style = MaterialTheme.typography.caption
-            )
+            rocketLaunch.details?.let {
+                Text(
+                    text = stringResource(resource = Resources.strings.launch_card_details, it),
+                    style = MaterialTheme.typography.caption
+                )
+            }
         }
     }
 }
