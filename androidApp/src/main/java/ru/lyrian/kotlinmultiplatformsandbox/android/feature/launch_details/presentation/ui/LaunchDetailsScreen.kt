@@ -1,6 +1,5 @@
 package ru.lyrian.kotlinmultiplatformsandbox.android.feature.launch_details.presentation.ui
 
-import android.widget.Toast
 import androidx.compose.foundation.layout.Arrangement
 import androidx.compose.foundation.layout.Box
 import androidx.compose.foundation.layout.Column
@@ -30,7 +29,6 @@ import androidx.compose.runtime.getValue
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Alignment.Companion.CenterHorizontally
 import androidx.compose.ui.Modifier
-import androidx.compose.ui.platform.LocalContext
 import androidx.compose.ui.unit.dp
 import com.google.accompanist.pager.ExperimentalPagerApi
 import com.google.accompanist.pager.HorizontalPager
@@ -38,6 +36,7 @@ import com.google.accompanist.pager.HorizontalPagerIndicator
 import com.google.accompanist.pager.rememberPagerState
 import org.koin.androidx.compose.getViewModel
 import ru.lyrian.kotlinmultiplatformsandbox.android.core.ui.composables.images.ImageFromUrl
+import ru.lyrian.kotlinmultiplatformsandbox.android.core.ui.screens.LocalSnackBarState
 import ru.lyrian.kotlinmultiplatformsandbox.android.feature.launch_details.presentation.model.LaunchDetailsEvent
 import ru.lyrian.kotlinmultiplatformsandbox.android.feature.launch_details.presentation.model.LaunchDetailsState
 import ru.lyrian.kotlinmultiplatformsandbox.android.feature.launch_details.presentation.viewmodel.LaunchDetailsViewModel
@@ -50,13 +49,13 @@ fun LaunchDetailsScreen(
 ) {
     val viewModel = getViewModel<LaunchDetailsViewModel>()
     val state by viewModel.state.collectAsState()
-    val context = LocalContext.current
+    val snackBarState = LocalSnackBarState.current
 
     LaunchedEffect(key1 = Unit) {
         viewModel.eventChannel.collect { event ->
             when (event) {
                 is LaunchDetailsEvent.ShowErrorMessage -> {
-                    Toast.makeText(context, event.message, Toast.LENGTH_SHORT).show()
+                    snackBarState.showSnackbar(message = event.message)
                 }
             }
         }
@@ -241,7 +240,7 @@ private fun LaunchDetailsSuccess(
     } else {
         "Unsuccessful" to MaterialTheme.colors.error
     }
-    
+
     Column(
         modifier = modifier,
         verticalArrangement = Arrangement.spacedBy(8.dp)
