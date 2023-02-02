@@ -60,8 +60,7 @@ class LaunchDetailsViewModel(
                 SharedLogger.logError(
                     message = "Failed load launch details",
                     throwable = throwable,
-                    tag = this.javaClass.simpleName
-
+                    tag = this@LaunchDetailsViewModel.javaClass.simpleName
                 )
                 _state.update {
                     it.copy(
@@ -69,6 +68,7 @@ class LaunchDetailsViewModel(
                         isError = true
                     )
                 }
+
                 _eventChannel.send(LaunchDetailsEvent.ShowErrorMessage("Error: ${throwable.localizedMessage}"))
             }
         }
