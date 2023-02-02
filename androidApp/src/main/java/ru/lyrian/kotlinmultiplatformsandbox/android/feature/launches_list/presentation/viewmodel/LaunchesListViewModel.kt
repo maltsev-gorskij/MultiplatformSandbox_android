@@ -11,6 +11,7 @@ import kotlinx.coroutines.flow.update
 import kotlinx.coroutines.launch
 import ru.lyrian.kotlinmultiplatformsandbox.android.feature.launches_list.presentation.model.LaunchesListState
 import ru.lyrian.kotlinmultiplatformsandbox.android.feature.launches_list.presentation.ui.LaunchesListEvent
+import ru.lyrian.kotlinmultiplatformsandbox.core.data.data_source.api.interceptors_applicator.ApiError
 import ru.lyrian.kotlinmultiplatformsandbox.core.logger.SharedLogger
 import ru.lyrian.kotlinmultiplatformsandbox.feature.launches.domain.LaunchesInteractor
 
@@ -28,10 +29,19 @@ class LaunchesListViewModel constructor(
             SharedLogger.logError(
                 message = "Failed loading launches",
                 throwable = throwable,
-                tag = this.javaClass.simpleName
+                tag = this@LaunchesListViewModel.javaClass.simpleName
 
             )
-            _event.send(LaunchesListEvent.ShowToast("Update failed" + throwable.localizedMessage?.let { ": $it" }))
+
+            val toastMessage = when(throwable as ApiError) {
+                is ApiError.BadRequest -> "Bad network request"
+                is ApiError.NetworkError -> "Network Error"
+                is ApiError.ServerError -> "Remote Server Error"
+                is ApiError.Unauthorized -> "User Unauthorized"
+                is ApiError.Undefined -> "Undefined error: $throwable"
+            }
+
+            _event.send(LaunchesListEvent.ShowToast(toastMessage))
 
             _viewState.update {
                 it.copy(
