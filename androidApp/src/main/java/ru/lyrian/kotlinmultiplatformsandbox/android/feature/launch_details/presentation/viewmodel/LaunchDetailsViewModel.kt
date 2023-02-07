@@ -1,30 +1,20 @@
 package ru.lyrian.kotlinmultiplatformsandbox.android.feature.launch_details.presentation.viewmodel
 
-import androidx.lifecycle.SavedStateHandle
 import androidx.lifecycle.ViewModel
-import androidx.lifecycle.viewModelScope
-import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.channels.Channel
 import kotlinx.coroutines.flow.MutableStateFlow
 import kotlinx.coroutines.flow.StateFlow
 import kotlinx.coroutines.flow.asStateFlow
 import kotlinx.coroutines.flow.receiveAsFlow
-import kotlinx.coroutines.flow.update
-import kotlinx.coroutines.launch
-import ru.lyrian.kotlinmultiplatformsandbox.android.feature.launch_details.presentation.model.LaunchDetailsArgs
 import ru.lyrian.kotlinmultiplatformsandbox.android.feature.launch_details.presentation.model.LaunchDetailsEvent
 import ru.lyrian.kotlinmultiplatformsandbox.android.feature.launch_details.presentation.model.LaunchDetailsState
-import ru.lyrian.kotlinmultiplatformsandbox.core.logger.SharedLogger
-import ru.lyrian.kotlinmultiplatformsandbox.feature.launches.domain.LaunchesInteractor
-import ru.lyrian.kotlinmultiplatformsandbox.feature.launches.domain.RocketLaunch
 
-class LaunchDetailsViewModel(
-    private val launchesInteractor: LaunchesInteractor,
-    savedStateHandle: SavedStateHandle
-) : ViewModel() {
+//    private val launchesInteractor: LaunchesInteractor,
+//    savedStateHandle: SavedStateHandle
+class LaunchDetailsViewModel: ViewModel() {
 
-    private val launchDetailsArgs = LaunchDetailsArgs(savedStateHandle)
-    private var launch: RocketLaunch? = null
+//    private val launchDetailsArgs = LaunchDetailsArgs(savedStateHandle)
+//    private var launch: RocketLaunch? = null
 
     private val _state = MutableStateFlow(LaunchDetailsState())
     val state: StateFlow<LaunchDetailsState> = _state.asStateFlow()
@@ -33,12 +23,12 @@ class LaunchDetailsViewModel(
     val eventChannel = _eventChannel.receiveAsFlow()
 
     init {
-        loadLaunch(launchDetailsArgs.launchId)
+//        loadLaunch(launchDetailsArgs.launchId)
     }
 
-    fun refreshLaunchDetails() = loadLaunch(launchDetailsArgs.launchId)
+//    fun refreshLaunchDetails() = loadLaunch(launchDetailsArgs.launchId)
 
-    private fun loadLaunch(id: String) {
+   /* private fun loadLaunch(id: String) {
         viewModelScope.launch(Dispatchers.IO) {
             runCatching {
                 _state.update {
@@ -72,5 +62,5 @@ class LaunchDetailsViewModel(
                 _eventChannel.send(LaunchDetailsEvent.ShowErrorMessage("Error: ${throwable.localizedMessage}"))
             }
         }
-    }
+    }*/
 }
