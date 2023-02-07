@@ -72,7 +72,7 @@ fun LaunchDetailsScreen(
     ) { paddingValues ->
         LaunchDetailsContent(
             state = state,
-            onRefresh = viewModel::refreshLaunchDetails,
+            onRefresh = { /*viewModel::refreshLaunchDetails*/ },
             modifier = Modifier
                 .fillMaxSize()
                 .padding(paddingValues)
@@ -162,7 +162,7 @@ private fun LaunchDetails(
 
         LaunchDetailsTitleAndText(
             title = "Start Date",
-            text = rocketLaunch.launchDateUTC,
+            text = rocketLaunch.launchDateUTC ?: "",
             modifier = Modifier
                 .fillMaxWidth()
                 .padding(horizontal = 24.dp)

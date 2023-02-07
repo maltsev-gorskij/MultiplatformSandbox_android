@@ -1,10 +1,12 @@
 package ru.lyrian.kotlinmultiplatformsandbox.android.feature.launches_list.presentation.model
 
-import ru.lyrian.kotlinmultiplatformsandbox.feature.launches.domain.RocketLaunch
+import ru.lyrian.kotlinmultiplatformsandbox.android.core.constants.PaginationConstants
 
 data class LaunchesListState(
-    val launches: List<RocketLaunch> = listOf(),
+    val launches: LaunchesUiWrapper = LaunchesUiWrapper(emptyList(), PaginationConstants.NEW_PAGE_LOAD_THRESHOLD) { },
     val isLoading: Boolean = false,
-    val isError: Boolean = false,
-    val errorMessage: String = ""
+    val isErrorLoading: Boolean = false,
+    val errorMessage: String = "",
+    val isLoadingNewPage: Boolean = false,
+    val isErrorLoadingNewPage: Boolean = false,
 )
