@@ -9,13 +9,18 @@ import androidx.compose.foundation.layout.fillMaxSize
 import androidx.compose.foundation.layout.fillMaxWidth
 import androidx.compose.foundation.layout.padding
 import androidx.compose.foundation.lazy.LazyColumn
-import androidx.compose.foundation.lazy.items
+import androidx.compose.foundation.lazy.rememberLazyListState
 import androidx.compose.material.Card
+import androidx.compose.material.CircularProgressIndicator
 import androidx.compose.material.ExperimentalMaterialApi
+import androidx.compose.material.Icon
+import androidx.compose.material.IconButton
 import androidx.compose.material.LocalTextStyle
 import androidx.compose.material.MaterialTheme
 import androidx.compose.material.Surface
 import androidx.compose.material.Text
+import androidx.compose.material.icons.Icons
+import androidx.compose.material.icons.filled.Refresh
 import androidx.compose.material.pullrefresh.PullRefreshIndicator
 import androidx.compose.material.pullrefresh.pullRefresh
 import androidx.compose.material.pullrefresh.rememberPullRefreshState
@@ -29,9 +34,10 @@ import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.unit.dp
 import dev.icerock.moko.resources.compose.stringResource
 import org.koin.androidx.compose.getViewModel
-import ru.lyrian.kotlinmultiplatformsandbox.android.core.ui.screens.LocalSnackBarState
 import ru.lyrian.kotlinmultiplatformsandbox.Resources
+import ru.lyrian.kotlinmultiplatformsandbox.android.core.ui.screens.LocalSnackBarState
 import ru.lyrian.kotlinmultiplatformsandbox.android.feature.launches_list.presentation.model.LaunchesListState
+import ru.lyrian.kotlinmultiplatformsandbox.android.feature.launches_list.presentation.model.LaunchesUiWrapper
 import ru.lyrian.kotlinmultiplatformsandbox.android.feature.launches_list.presentation.viewmodel.LaunchesListViewModel
 import ru.lyrian.kotlinmultiplatformsandbox.feature.launches.domain.RocketLaunch
 
@@ -42,6 +48,7 @@ fun LaunchesListScreen(
     val viewModel = getViewModel<LaunchesListViewModel>()
     val currentViewState by viewModel.viewState.collectAsState()
     val snackBarState = LocalSnackBarState.current
+
 
     LaunchedEffect(true) {
         viewModel.event.collect { event: LaunchesListEvent ->
@@ -63,7 +70,8 @@ fun LaunchesListScreen(
             LaunchesHeader()
             LaunchesList(
                 viewState = currentViewState,
-                onRefresh = { viewModel.refresh(true) },
+                onRefresh = viewModel::refresh,
+                onLoadNextPage = viewModel::loadNextPage,
                 onLaunchClick = onLaunchClick
             )
         }
@@ -95,6 +103,7 @@ private fun LaunchesHeader() {
 private fun LaunchesList(
     viewState: LaunchesListState,
     onRefresh: () -> Unit,
+    onLoadNextPage: () -> Unit,
     onLaunchClick: (String) -> Unit
 ) {
     val pullRefreshState = rememberPullRefreshState(
@@ -104,7 +113,12 @@ private fun LaunchesList(
 
     Box(modifier = Modifier.pullRefresh(pullRefreshState)) {
         LaunchesListContent(
-            viewState = viewState,
+            launches = viewState.launches,
+            isLoadingNewPage = viewState.isLoadingNewPage,
+            isError = viewState.isErrorLoading,
+            isErrorLoadingNewPage = viewState.isErrorLoadingNewPage,
+            errorMessage = viewState.errorMessage,
+            onLoadNextPage = onLoadNextPage,
             onLaunchClick = onLaunchClick
         )
         PullRefreshIndicator(
@@ -119,30 +133,73 @@ private fun LaunchesList(
 
 @Composable
 private fun LaunchesListContent(
-    viewState: LaunchesListState,
+    launches: LaunchesUiWrapper,
+    isLoadingNewPage: Boolean,
+    isError: Boolean,
+    isErrorLoadingNewPage: Boolean,
+    errorMessage: String,
+    onLoadNextPage: () -> Unit,
     onLaunchClick: (String) -> Unit
 ) {
+    val lazyColumnState = rememberLazyListState()
+
     LazyColumn(
         modifier = Modifier.fillMaxSize(),
+        state = lazyColumnState,
         contentPadding = PaddingValues(vertical = 4.dp, horizontal = 8.dp),
         verticalArrangement = Arrangement.spacedBy(8.dp)
     ) {
-        if (viewState.isError) {
-            item() {
+        if (isError) {
+            item {
                 Box(modifier = Modifier.fillParentMaxSize()) {
                     Text(
                         modifier = Modifier.align(Alignment.Center),
-                        text = viewState.errorMessage,
+                        text = errorMessage,
                         style = MaterialTheme.typography.body1
                     )
                 }
             }
         } else {
-            items(items = viewState.launches, key = { it.id }) {
+            items(
+                count = launches.size,
+                key = { launches.peekItem(it).id }
+            ) {
                 LaunchesListItem(
-                    rocketLaunch = it,
-                    onLaunchClick = { onLaunchClick(it.id) }
+                    rocketLaunch = launches[it],
+                    onLaunchClick = { onLaunchClick(launches[it].id) }
                 )
+            }
+
+            if (isErrorLoadingNewPage) {
+                item(key = "error") {
+                    Column(
+                        modifier = Modifier
+                            .fillMaxWidth()
+                            .padding(vertical = 24.dp),
+                        horizontalAlignment = Alignment.CenterHorizontally,
+                        verticalArrangement = Arrangement.spacedBy(8.dp)
+                    ) {
+                        Text(
+                            text = errorMessage,
+                            style = MaterialTheme.typography.body1
+                        )
+                        IconButton(onClick = onLoadNextPage) {
+                            Icon(imageVector = Icons.Default.Refresh, contentDescription = "Refresh")
+                        }
+                    }
+                }
+            } else if (isLoadingNewPage) {
+                item(key = "loader") {
+                    Box(
+                        modifier = Modifier
+                            .fillMaxWidth()
+                            .padding(vertical = 24.dp)
+                    ) {
+                        CircularProgressIndicator(
+                            modifier = Modifier.align(Alignment.Center)
+                        )
+                    }
+                }
             }
         }
     }
@@ -186,7 +243,7 @@ private fun LaunchesListItem(
                 )
             )
             Text(
-                text = stringResource(resource = Resources.strings.launch_card_year, rocketLaunch.launchYear),
+                text = stringResource(resource = Resources.strings.launch_card_year, rocketLaunch.launchYear ?: 0),
                 style = MaterialTheme.typography.caption
             )
             rocketLaunch.details?.let {
