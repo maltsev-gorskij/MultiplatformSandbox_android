@@ -72,7 +72,7 @@ fun LaunchDetailsScreen(
     ) { paddingValues ->
         LaunchDetailsContent(
             state = state,
-            onRefresh = { /*viewModel::refreshLaunchDetails*/ },
+            onRefresh = viewModel::refreshLaunchDetails,
             modifier = Modifier
                 .fillMaxSize()
                 .padding(paddingValues)
@@ -252,7 +252,7 @@ private fun LaunchDetailsSuccess(
         )
         if (success != true && failureReasons.isNotEmpty()) {
             Text(text = "Failure reasons", style = MaterialTheme.typography.h6)
-            failureReasons.forEach {  reason ->
+            failureReasons.forEach { reason ->
                 Text(text = reason, style = MaterialTheme.typography.body1)
             }
         }

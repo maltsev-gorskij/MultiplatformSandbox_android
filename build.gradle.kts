@@ -60,8 +60,8 @@ dependencies {
 
 // Global project properties
 val appName by extra("SpaceX Launches")
-val versionName by extra("1.0")
-val versionCode by extra(1)
+val versionName by extra("1.1")
+val versionCode by extra(2)
 val compileSdk by extra(33)
 val minSdk by extra(21)
 val targetSdk by extra(33)
