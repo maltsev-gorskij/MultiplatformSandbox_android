@@ -15,9 +15,9 @@ import ru.lyrian.kotlinmultiplatformsandbox.android.feature.launches_list.presen
 import ru.lyrian.kotlinmultiplatformsandbox.android.feature.launches_list.presentation.model.LaunchesUiWrapper
 import ru.lyrian.kotlinmultiplatformsandbox.android.feature.launches_list.presentation.ui.LaunchesListEvent
 import ru.lyrian.kotlinmultiplatformsandbox.core.data.data_source.api.interceptors_applicator.ApiError
+import ru.lyrian.kotlinmultiplatformsandbox.core.data.pagination.PaginationState
 import ru.lyrian.kotlinmultiplatformsandbox.core.logger.SharedLogger
 import ru.lyrian.kotlinmultiplatformsandbox.feature.launches.domain.LaunchesInteractor
-import ru.lyrian.kotlinmultiplatformsandbox.feature.launches.domain.PaginationState
 import ru.lyrian.kotlinmultiplatformsandbox.feature.launches.domain.RocketLaunch
 
 class LaunchesListViewModel constructor(
@@ -29,7 +29,7 @@ class LaunchesListViewModel constructor(
     private val _event = Channel<LaunchesListEvent>()
     val event = _event.receiveAsFlow()
 
-    private var paginationState: PaginationState? = null
+    private var paginationState: PaginationState<RocketLaunch>? = null
 
     init {
         viewModelScope.launch {
@@ -204,13 +204,13 @@ class LaunchesListViewModel constructor(
                     launches = it.launches.copy(isLoadingPage = true),
                 )
             }
-            launchesInteractor.loadNextPage()
+            paginationState?.loadNextPage()
         }
     }
 
     fun refresh() {
         viewModelScope.launch {
-            launchesInteractor.refreshPagination()
+            paginationState?.refreshPagination()
         }
     }
 
