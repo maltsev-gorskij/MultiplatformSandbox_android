@@ -53,6 +53,10 @@ task<Delete>("disableGitHooks") {
     )
 }
 
+tasks.withType<org.jetbrains.kotlin.gradle.tasks.KotlinCompile> {
+    kotlinOptions.useK2 = true
+}
+
 dependencies {
     detekt(libs.detekt.cli)
     detektPlugins(libs.detekt.rules.compose)
