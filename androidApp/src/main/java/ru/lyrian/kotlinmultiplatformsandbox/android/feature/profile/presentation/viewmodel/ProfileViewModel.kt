@@ -1,11 +1,16 @@
 package ru.lyrian.kotlinmultiplatformsandbox.android.feature.profile.presentation.viewmodel
 
 import androidx.lifecycle.ViewModel
+import androidx.lifecycle.viewModelScope
 import kotlinx.coroutines.flow.MutableStateFlow
 import kotlinx.coroutines.flow.StateFlow
 import kotlinx.coroutines.flow.asStateFlow
 import kotlinx.coroutines.flow.update
+import kotlinx.coroutines.launch
 import ru.lyrian.kotlinmultiplatformsandbox.android.feature.profile.presentation.model.ProfileState
+import ru.lyrian.kotlinmultiplatformsandbox.core.domain.onException
+import ru.lyrian.kotlinmultiplatformsandbox.core.domain.onSuccess
+import ru.lyrian.kotlinmultiplatformsandbox.core.logger.SharedLogger
 import ru.lyrian.kotlinmultiplatformsandbox.feature.profile.domain.Profile
 import ru.lyrian.kotlinmultiplatformsandbox.feature.profile.domain.ProfileInteractor
 
@@ -13,36 +18,85 @@ class ProfileViewModel(
     private val profileInteractor: ProfileInteractor,
 ) : ViewModel() {
 
-    private var savedProfile: Profile = profileInteractor.getProfile()
-    private var profile: Profile = savedProfile
+    private var savedProfile: Profile? = null
+    private var profile: Profile? = null
 
-    private val _state =  MutableStateFlow(ProfileState(profile.userName, profile.encryptedText, isSaveEnabled()))
+    private val _state =
+        MutableStateFlow(
+            ProfileState(
+                userName = "",
+                encryptedText = "",
+                isSaveEnabled = isSaveEnabled()
+            )
+        )
     val state: StateFlow<ProfileState> = _state.asStateFlow()
 
+    init {
+        viewModelScope.launch {
+            profileInteractor
+                .getProfile()
+                .onSuccess {
+                    savedProfile = it
+                    profile = it
+
+                    _state.update {
+                        ProfileState(
+                            userName = profile?.userName.orEmpty(),
+                            encryptedText = profile?.encryptedText.orEmpty(),
+                            isSaveEnabled = isSaveEnabled()
+                        )
+                    }
+                }
+                .onException {
+                    SharedLogger.logError(
+                        message = "Cannot load profile",
+                        throwable = it,
+                        tag = this@ProfileViewModel.javaClass.simpleName
+                    )
+                }
+        }
+
+
+    }
+
     fun updateUserName(newUserName: String) {
-        profile = profile.copy(userName = newUserName)
+        profile = profile?.copy(userName = newUserName)
         updateProfileState()
     }
 
     fun updateEncryptedText(newText: String) {
-        profile = profile.copy(encryptedText = newText)
-        updateProfileState()
-    }
-    
-    fun saveProfile() {
-        profileInteractor.saveProfile(profile)
-        savedProfile = profileInteractor.getProfile()
+        profile = profile?.copy(encryptedText = newText)
         updateProfileState()
     }
 
-    private fun isSaveEnabled() = profile.userName != savedProfile.userName
-            || profile.encryptedText != savedProfile.encryptedText
+    fun saveProfile() {
+        viewModelScope.launch {
+            profile?.let { profileInteractor.saveProfile(it) }
+            profileInteractor
+                .getProfile()
+                .onSuccess {
+                    savedProfile = it
+                }
+                .onException {
+                    SharedLogger.logError(
+                        message = "Cannot load profile",
+                        throwable = it,
+                        tag = this@ProfileViewModel.javaClass.simpleName
+                    )
+                }
+
+            updateProfileState()
+        }
+    }
+
+    private fun isSaveEnabled() = profile?.userName != savedProfile?.userName
+            || profile?.encryptedText != savedProfile?.encryptedText
 
     private fun updateProfileState() {
         _state.update {
             ProfileState(
-                userName = profile.userName,
-                encryptedText = profile.encryptedText,
+                userName = profile?.userName.orEmpty(),
+                encryptedText = profile?.encryptedText.orEmpty(),
                 isSaveEnabled = isSaveEnabled()
             )
         }

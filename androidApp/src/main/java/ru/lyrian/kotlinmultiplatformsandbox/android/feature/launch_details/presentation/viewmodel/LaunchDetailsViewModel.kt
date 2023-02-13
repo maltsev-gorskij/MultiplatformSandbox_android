@@ -14,6 +14,8 @@ import kotlinx.coroutines.launch
 import ru.lyrian.kotlinmultiplatformsandbox.android.feature.launch_details.presentation.model.LaunchDetailsArgs
 import ru.lyrian.kotlinmultiplatformsandbox.android.feature.launch_details.presentation.model.LaunchDetailsEvent
 import ru.lyrian.kotlinmultiplatformsandbox.android.feature.launch_details.presentation.model.LaunchDetailsState
+import ru.lyrian.kotlinmultiplatformsandbox.core.domain.onException
+import ru.lyrian.kotlinmultiplatformsandbox.core.domain.onSuccess
 import ru.lyrian.kotlinmultiplatformsandbox.core.logger.SharedLogger
 import ru.lyrian.kotlinmultiplatformsandbox.feature.launches.domain.LaunchesInteractor
 import ru.lyrian.kotlinmultiplatformsandbox.feature.launches.domain.RocketLaunch
@@ -40,37 +42,39 @@ class LaunchDetailsViewModel constructor(
 
     private fun loadLaunch(id: String) {
         viewModelScope.launch(Dispatchers.IO) {
-            runCatching {
-                _state.update {
-                    it.copy(
-                        isLoading = true,
-                        isError = false
-                    )
-                }
-                launchesInteractor.getLaunchById(id)
-            }.onSuccess { rocketLaunch ->
-                launch = rocketLaunch
-                _state.update {
-                    it.copy(
-                        launch = launch,
-                        isLoading = false
-                    )
-                }
-            }.onFailure { throwable ->
-                SharedLogger.logError(
-                    message = "Failed load launch details",
-                    throwable = throwable,
-                    tag = this@LaunchDetailsViewModel.javaClass.simpleName
+            _state.update {
+                it.copy(
+                    isLoading = true,
+                    isError = false
                 )
-                _state.update {
-                    it.copy(
-                        isLoading = false,
-                        isError = true
-                    )
-                }
-
-                _eventChannel.send(LaunchDetailsEvent.ShowErrorMessage("Error: ${throwable.localizedMessage}"))
             }
+
+            launchesInteractor
+                .getLaunchById(id)
+                .onSuccess { rocketLaunch: RocketLaunch ->
+                    launch = rocketLaunch
+                    _state.update {
+                        it.copy(
+                            launch = launch,
+                            isLoading = false
+                        )
+                    }
+                }
+                .onException { throwable: Throwable ->
+                    SharedLogger.logError(
+                        message = "Failed load launch details",
+                        throwable = throwable,
+                        tag = this@LaunchDetailsViewModel.javaClass.simpleName
+                    )
+                    _state.update {
+                        it.copy(
+                            isLoading = false,
+                            isError = true
+                        )
+                    }
+
+                    _eventChannel.send(LaunchDetailsEvent.ShowErrorMessage("Error: ${throwable.localizedMessage}"))
+                }
         }
     }
 }

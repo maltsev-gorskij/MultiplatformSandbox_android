@@ -13,6 +13,7 @@ import androidx.compose.ui.Modifier
 import androidx.compose.ui.graphics.painter.Painter
 import androidx.compose.ui.layout.ContentScale
 import coil.compose.AsyncImage
+import ru.lyrian.kotlinmultiplatformsandbox.core.logger.SharedLogger
 
 /**
  * Image with progress bar based on Coil AsyncImage.
@@ -50,6 +51,11 @@ fun ImageFromUrl(
             onError = {
                 isLoading = false
                 onImageLoadError()
+                SharedLogger.logError(
+                    message = "Cannot load image: $model",
+                    throwable = null,
+                    tag = this.javaClass.simpleName
+                )
             },
         )
         if (isLoading) {
