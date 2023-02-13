@@ -17,6 +17,7 @@ import androidx.compose.material.Icon
 import androidx.compose.material.IconButton
 import androidx.compose.material.LocalTextStyle
 import androidx.compose.material.MaterialTheme
+import androidx.compose.material.SnackbarDuration
 import androidx.compose.material.Surface
 import androidx.compose.material.Text
 import androidx.compose.material.icons.Icons
@@ -54,7 +55,10 @@ fun LaunchesListScreen(
         viewModel.event.collect { event: LaunchesListEvent ->
             when (event) {
                 is LaunchesListEvent.ShowToast -> {
-                    snackBarState.showSnackbar(message = event.message)
+                    snackBarState.showSnackbar(
+                        message = event.message,
+                        duration = SnackbarDuration.Short
+                    )
                 }
             }
         }
