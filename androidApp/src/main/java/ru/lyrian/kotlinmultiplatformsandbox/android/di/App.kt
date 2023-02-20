@@ -3,8 +3,8 @@ package ru.lyrian.kotlinmultiplatformsandbox.android.di
 import android.app.Application
 import org.koin.android.ext.android.inject
 import org.koin.android.ext.koin.androidContext
-import ru.lyrian.kotlinmultiplatformsandbox.core.di.KoinInitializer
 import ru.lyrian.kotlinmultiplatformsandbox.core.initializers.AppInitializer
+import ru.lyrian.kotlinmultiplatformsandbox.core.initializers.KoinInitializer
 
 class App : Application() {
     private val appInitializer: AppInitializer by inject()

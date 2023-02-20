@@ -13,7 +13,7 @@ import androidx.compose.ui.Modifier
 import androidx.compose.ui.graphics.painter.Painter
 import androidx.compose.ui.layout.ContentScale
 import coil.compose.AsyncImage
-import ru.lyrian.kotlinmultiplatformsandbox.core.logger.SharedLogger
+import ru.lyrian.kotlinmultiplatformsandbox.core.common.logger.SharedLogger
 
 /**
  * Image with progress bar based on Coil AsyncImage.

@@ -8,9 +8,9 @@ import kotlinx.coroutines.flow.asStateFlow
 import kotlinx.coroutines.flow.update
 import kotlinx.coroutines.launch
 import ru.lyrian.kotlinmultiplatformsandbox.android.feature.profile.presentation.model.ProfileState
+import ru.lyrian.kotlinmultiplatformsandbox.core.common.logger.SharedLogger
 import ru.lyrian.kotlinmultiplatformsandbox.core.domain.onException
 import ru.lyrian.kotlinmultiplatformsandbox.core.domain.onSuccess
-import ru.lyrian.kotlinmultiplatformsandbox.core.logger.SharedLogger
 import ru.lyrian.kotlinmultiplatformsandbox.feature.profile.domain.Profile
 import ru.lyrian.kotlinmultiplatformsandbox.feature.profile.domain.ProfileInteractor
 
