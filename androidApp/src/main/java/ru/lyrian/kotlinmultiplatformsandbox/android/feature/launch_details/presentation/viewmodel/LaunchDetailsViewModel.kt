@@ -14,9 +14,9 @@ import kotlinx.coroutines.launch
 import ru.lyrian.kotlinmultiplatformsandbox.android.feature.launch_details.presentation.model.LaunchDetailsArgs
 import ru.lyrian.kotlinmultiplatformsandbox.android.feature.launch_details.presentation.model.LaunchDetailsEvent
 import ru.lyrian.kotlinmultiplatformsandbox.android.feature.launch_details.presentation.model.LaunchDetailsState
+import ru.lyrian.kotlinmultiplatformsandbox.core.common.logger.SharedLogger
 import ru.lyrian.kotlinmultiplatformsandbox.core.domain.onException
 import ru.lyrian.kotlinmultiplatformsandbox.core.domain.onSuccess
-import ru.lyrian.kotlinmultiplatformsandbox.core.logger.SharedLogger
 import ru.lyrian.kotlinmultiplatformsandbox.feature.launches.domain.LaunchesInteractor
 import ru.lyrian.kotlinmultiplatformsandbox.feature.launches.domain.RocketLaunch
 
