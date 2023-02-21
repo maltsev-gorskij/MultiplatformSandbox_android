@@ -5,6 +5,8 @@ import com.android.build.gradle.internal.api.BaseVariantOutputImpl
 plugins {
     id("com.android.application")
     kotlin("android")
+    id("com.google.gms.google-services")
+    id("com.google.firebase.crashlytics")
 }
 
 android {
@@ -45,12 +47,16 @@ android {
                 getDefaultProguardFile("proguard-android-optimize.txt"),
                 "proguard-rules.pro"
             )
+
+            buildConfigField(type = "boolean", name = "IS_CRASHLYTICS_ENABLED", value = "true")
         }
 
         debug {
             isDebuggable = true
             isMinifyEnabled = false
             isShrinkResources = false
+
+            buildConfigField(type = "boolean", name = "IS_CRASHLYTICS_ENABLED", value = "false")
         }
     }
 
@@ -75,7 +81,8 @@ android {
 
 dependencies {
     // Importing shared kmm logic from mavenLocal repo
-    implementation(libs.kotlinmultiplatformsandbox.shared)
+    implementation(libs.kmm.shared)
+    implementation(libs.kmm.sharedfirebase)
 
     // All compose ui related dependencies bundle
     implementation(libs.bundles.compose)
@@ -89,6 +96,10 @@ dependencies {
 
     // Multiplatform resources
     implementation(libs.resources.compose)
+
+    // Firebase
+    implementation(project.dependencies.platform(libs.firebase.bom))
+    implementation(libs.firebase.crashlytics)
 
     // Unit testing
     testImplementation(libs.koin.test)

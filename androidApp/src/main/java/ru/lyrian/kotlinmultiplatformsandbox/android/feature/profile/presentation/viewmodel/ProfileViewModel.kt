@@ -16,6 +16,9 @@ import ru.lyrian.kotlinmultiplatformsandbox.feature.profile.domain.ProfileIntera
 
 class ProfileViewModel(
     private val profileInteractor: ProfileInteractor,
+
+    // Commented example of crashlytics non fatal error. Use in release build variant
+    // private val firebaseIntegrationInteractor: FirebaseIntegrationInteractor
 ) : ViewModel() {
 
     private var savedProfile: Profile? = null
@@ -70,7 +73,14 @@ class ProfileViewModel(
     }
 
     fun saveProfile() {
+        // Commented example of crashlytics non fatal error. Use in release build variant
+        // firebaseIntegrationInteractor.firebaseCrashlyticsTest()
+
         viewModelScope.launch {
+            // Commented example of Firebase usage from KMM module
+//            FirestoreClient().addUser("petya")
+//            FirestoreClient().getFirstUser()
+
             profile?.let { profileInteractor.saveProfile(it) }
             profileInteractor
                 .getProfile()

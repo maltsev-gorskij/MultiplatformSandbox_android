@@ -1,0 +1,39 @@
+{
+  "project_info": {
+    "project_number": "762315498730",
+    "project_id": "kmm-firebase-test-73c14",
+    "storage_bucket": "kmm-firebase-test-73c14.appspot.com"
+  },
+  "client": [
+    {
+      "client_info": {
+        "mobilesdk_app_id": "1:762315498730:android:0d5e2000d936cf7dc3a393",
+        "android_client_info": {
+          "package_name": "ru.lyrian.kotlinmultiplatformsandbox.android"
+        }
+      },
+      "oauth_client": [
+        {
+          "client_id": "762315498730-20ds6qaits4d3foad7p2pcb0vq3g6558.apps.googleusercontent.com",
+          "client_type": 3
+        }
+      ],
+      "api_key": [
+        {
+          "current_key": "AIzaSyAS-rCOgdsoensmXdf6QXQYq21s9hy0Nq8"
+        }
+      ],
+      "services": {
+        "appinvite_service": {
+          "other_platform_oauth_client": [
+            {
+              "client_id": "762315498730-20ds6qaits4d3foad7p2pcb0vq3g6558.apps.googleusercontent.com",
+              "client_type": 3
+            }
+          ]
+        }
+      }
+    }
+  ],
+  "configuration_version": "1"
+}
