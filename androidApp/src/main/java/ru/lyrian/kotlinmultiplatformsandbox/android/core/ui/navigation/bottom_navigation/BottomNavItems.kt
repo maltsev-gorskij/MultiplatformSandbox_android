@@ -12,8 +12,8 @@ sealed class BottomNavItems(val titleResource: StringResource, val icon: Int, va
         route = NavDestinations.HomeNavGraph.LAUNCHES
     )
     object Favorites : BottomNavItems(
-        titleResource = Resources.strings.bottom_nav_favourites,
-        icon = R.drawable.ic_favorites,
+        titleResource = Resources.strings.bottom_nav_media,
+        icon = R.drawable.ic_media,
         route = NavDestinations.HomeNavGraph.FAVORITES
     )
     object Profile : BottomNavItems(

@@ -86,6 +86,9 @@ dependencies {
     // All compose ui related dependencies bundle
     implementation(libs.bundles.compose)
 
+    // View based youtube player
+    implementation(libs.youtubeplayer)
+
     // Coroutines
     implementation(libs.coroutines.android)
 
