@@ -1,5 +1,6 @@
 package ru.lyrian.kotlinmultiplatformsandbox.android.feature.launches.details.presentation.ui
 
+import android.annotation.SuppressLint
 import androidx.compose.foundation.layout.Arrangement
 import androidx.compose.foundation.layout.Box
 import androidx.compose.foundation.layout.Column
@@ -42,6 +43,7 @@ import ru.lyrian.kotlinmultiplatformsandbox.android.feature.launches.details.pre
 import ru.lyrian.kotlinmultiplatformsandbox.android.feature.launches.details.presentation.viewmodel.LaunchDetailsViewModel
 import ru.lyrian.kotlinmultiplatformsandbox.feature.launches.domain.RocketLaunch
 
+@SuppressLint("UnusedMaterialScaffoldPaddingParameter")
 @Composable
 fun LaunchDetailsScreen(
     onNavigateBackClick: () -> Unit,
@@ -69,13 +71,12 @@ fun LaunchDetailsScreen(
             )
         },
         modifier = modifier
-    ) { paddingValues ->
+    ) {
         LaunchDetailsContent(
             state = state,
             onRefresh = viewModel::refreshLaunchDetails,
             modifier = Modifier
                 .fillMaxSize()
-                .padding(paddingValues)
         )
     }
 }
@@ -128,6 +129,7 @@ private fun LaunchDetailsContent(
                     rocketLaunch = state.launch,
                     modifier = Modifier
                         .fillMaxSize()
+                        .padding(top = 8.dp)
                 )
             }
         }
@@ -148,8 +150,7 @@ private fun LaunchDetails(
 ) {
     Column(
         modifier = modifier
-            .verticalScroll(rememberScrollState())
-            .padding(vertical = 24.dp),
+            .verticalScroll(rememberScrollState()),
         verticalArrangement = Arrangement.spacedBy(16.dp)
     ) {
         if (rocketLaunch.flickrImagesUrls.isNotEmpty() || !rocketLaunch.patchImageUrl.isNullOrEmpty()) {

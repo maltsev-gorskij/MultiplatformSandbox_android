@@ -43,7 +43,8 @@ import ru.lyrian.kotlinmultiplatformsandbox.feature.launches.domain.RocketLaunch
 
 @Composable
 fun LaunchesListScreen(
-    onLaunchClick: (String) -> Unit
+    onLaunchClick: (String) -> Unit,
+    modifier: Modifier = Modifier
 ) {
     val viewModel = getViewModel<LaunchesListViewModel>()
     val currentViewState by viewModel.viewState.collectAsState()
@@ -64,7 +65,7 @@ fun LaunchesListScreen(
     }
 
     Surface(
-        modifier = Modifier.fillMaxSize(),
+        modifier = modifier,
         color = Color.LightGray
     ) {
         Column(

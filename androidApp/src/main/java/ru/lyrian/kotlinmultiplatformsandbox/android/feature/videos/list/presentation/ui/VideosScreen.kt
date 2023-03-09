@@ -3,11 +3,9 @@ package ru.lyrian.kotlinmultiplatformsandbox.android.feature.videos.list.present
 import androidx.compose.foundation.layout.Arrangement
 import androidx.compose.foundation.layout.PaddingValues
 import androidx.compose.foundation.layout.fillMaxSize
-import androidx.compose.foundation.layout.padding
 import androidx.compose.foundation.lazy.LazyColumn
 import androidx.compose.foundation.shape.RoundedCornerShape
 import androidx.compose.material.Card
-import androidx.compose.material.Scaffold
 import androidx.compose.runtime.Composable
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.unit.dp
@@ -20,12 +18,10 @@ fun VideosScreen(
     onFullScreenButtonClick: (String) -> Unit,
     modifier: Modifier = Modifier
 ) {
-    Scaffold(modifier = modifier) {
-        VideosContent(
-            modifier = Modifier.padding(it),
-            onFullScreenButtonClick = onFullScreenButtonClick
-        )
-    }
+    VideosContent(
+        modifier = modifier,
+        onFullScreenButtonClick = onFullScreenButtonClick
+    )
 }
 
 @Composable

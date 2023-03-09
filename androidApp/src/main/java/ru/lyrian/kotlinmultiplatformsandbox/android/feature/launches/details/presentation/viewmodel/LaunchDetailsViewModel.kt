@@ -3,7 +3,6 @@ package ru.lyrian.kotlinmultiplatformsandbox.android.feature.launches.details.pr
 import androidx.lifecycle.SavedStateHandle
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
-import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.channels.Channel
 import kotlinx.coroutines.flow.MutableStateFlow
 import kotlinx.coroutines.flow.StateFlow
@@ -11,7 +10,7 @@ import kotlinx.coroutines.flow.asStateFlow
 import kotlinx.coroutines.flow.receiveAsFlow
 import kotlinx.coroutines.flow.update
 import kotlinx.coroutines.launch
-import ru.lyrian.kotlinmultiplatformsandbox.android.feature.launches.details.presentation.model.LaunchDetailsArgs
+import ru.lyrian.kotlinmultiplatformsandbox.android.core.ui.navigation.destinations.Destinations.RootGraph.HomeGraph.LaunchesDetailsGraph.DetailsArgs.LAUNCH_ID
 import ru.lyrian.kotlinmultiplatformsandbox.android.feature.launches.details.presentation.model.LaunchDetailsEvent
 import ru.lyrian.kotlinmultiplatformsandbox.android.feature.launches.details.presentation.model.LaunchDetailsState
 import ru.lyrian.kotlinmultiplatformsandbox.core.common.logger.SharedLogger
@@ -23,9 +22,9 @@ import ru.lyrian.kotlinmultiplatformsandbox.feature.launches.domain.RocketLaunch
 class LaunchDetailsViewModel constructor(
     private val launchesInteractor: LaunchesInteractor,
     savedStateHandle: SavedStateHandle
-): ViewModel() {
+) : ViewModel() {
 
-    private val launchDetailsArgs = LaunchDetailsArgs(savedStateHandle)
+    private val launchId = savedStateHandle.getStateFlow(LAUNCH_ID, "")
     private var launch: RocketLaunch? = null
 
     private val _state = MutableStateFlow(LaunchDetailsState())
@@ -35,13 +34,13 @@ class LaunchDetailsViewModel constructor(
     val eventChannel = _eventChannel.receiveAsFlow()
 
     init {
-        loadLaunch(launchDetailsArgs.launchId)
+        loadLaunch()
     }
 
-    fun refreshLaunchDetails() = loadLaunch(launchDetailsArgs.launchId)
+    fun refreshLaunchDetails() = loadLaunch()
 
-    private fun loadLaunch(id: String) {
-        viewModelScope.launch(Dispatchers.IO) {
+    private fun loadLaunch() {
+        viewModelScope.launch {
             _state.update {
                 it.copy(
                     isLoading = true,
@@ -50,7 +49,7 @@ class LaunchDetailsViewModel constructor(
             }
 
             launchesInteractor
-                .getLaunchById(id)
+                .getLaunchById(launchId.value)
                 .onSuccess { rocketLaunch: RocketLaunch ->
                     launch = rocketLaunch
                     _state.update {
@@ -61,20 +60,30 @@ class LaunchDetailsViewModel constructor(
                     }
                 }
                 .onException { throwable: Throwable ->
-                    SharedLogger.logError(
+                    handleLoadLaunchError(
                         message = "Failed load launch details",
-                        throwable = throwable,
-                        tag = this@LaunchDetailsViewModel.javaClass.simpleName
+                        throwable = throwable
                     )
-                    _state.update {
-                        it.copy(
-                            isLoading = false,
-                            isError = true
-                        )
-                    }
-
-                    _eventChannel.send(LaunchDetailsEvent.ShowErrorMessage("Error: ${throwable.localizedMessage}"))
                 }
+
         }
     }
+
+    private suspend fun handleLoadLaunchError(message: String, throwable: Throwable? = null) {
+        SharedLogger.logError(
+            message = message,
+            throwable = throwable,
+            tag = this@LaunchDetailsViewModel.javaClass.simpleName
+        )
+        _state.update {
+            it.copy(
+                isLoading = false,
+                isError = true
+            )
+        }
+
+        val toastMessage = throwable?.localizedMessage ?: message
+        _eventChannel.send(LaunchDetailsEvent.ShowErrorMessage("Error: $toastMessage"))
+    }
+
 }
