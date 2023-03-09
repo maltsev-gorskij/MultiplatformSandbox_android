@@ -15,7 +15,8 @@ fun NavGraphBuilder.videoDetailsNavGraph(
     ) {
         composable("${VideoDetailsGraph.DETAILS}/{${VideoDetailsGraph.DetailsArgs.VIDEO_ID}}") {
             VideoDetailsScreen(
-                onNavigateBack = onNavigateBack
+                onNavigateBack = onNavigateBack,
+                videoId = it.arguments?.getString(VideoDetailsGraph.DetailsArgs.VIDEO_ID)
             )
         }
     }
