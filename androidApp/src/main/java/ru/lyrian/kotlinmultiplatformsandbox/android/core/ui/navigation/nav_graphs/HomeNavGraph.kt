@@ -19,7 +19,7 @@ fun HomeNavGraph(
 ) {
     NavHost(
         navController = navController,
-        route = NavGraphsDestinations.HOME,
+        route = NavDestinations.GraphsDestinations.HOME,
         startDestination = BottomNavItems.Launches.route,
         modifier = modifier.fillMaxSize()
     ) {

@@ -14,7 +14,7 @@ fun NavGraphBuilder.detailsNavGraph(
     onNavigateBack: () -> Unit
 ) {
     navigation(
-        route = NavGraphsDestinations.DETAILS,
+        route = NavDestinations.GraphsDestinations.DETAILS,
         startDestination = NavDestinations.DetailsNavGraph.DETAILS
     ) {
         composable("${NavDestinations.DetailsNavGraph.DETAILS}/{$LAUNCH_ID_ARG}") {
