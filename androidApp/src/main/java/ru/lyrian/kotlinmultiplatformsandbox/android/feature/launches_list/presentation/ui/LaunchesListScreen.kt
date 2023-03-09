@@ -9,7 +9,6 @@ import androidx.compose.foundation.layout.fillMaxSize
 import androidx.compose.foundation.layout.fillMaxWidth
 import androidx.compose.foundation.layout.padding
 import androidx.compose.foundation.lazy.LazyColumn
-import androidx.compose.foundation.lazy.rememberLazyListState
 import androidx.compose.material.Card
 import androidx.compose.material.CircularProgressIndicator
 import androidx.compose.material.ExperimentalMaterialApi
@@ -145,11 +144,8 @@ private fun LaunchesListContent(
     onLoadNextPage: () -> Unit,
     onLaunchClick: (String) -> Unit
 ) {
-    val lazyColumnState = rememberLazyListState()
-
     LazyColumn(
         modifier = Modifier.fillMaxSize(),
-        state = lazyColumnState,
         contentPadding = PaddingValues(vertical = 4.dp, horizontal = 8.dp),
         verticalArrangement = Arrangement.spacedBy(8.dp)
     ) {
