@@ -5,17 +5,17 @@ import androidx.navigation.NavHostController
 import androidx.navigation.compose.NavHost
 import androidx.navigation.compose.composable
 import androidx.navigation.compose.rememberNavController
-import ru.lyrian.kotlinmultiplatformsandbox.android.core.ui.navigation.destinations.NavDestinations
+import ru.lyrian.kotlinmultiplatformsandbox.android.core.ui.navigation.destinations.Destinations
 import ru.lyrian.kotlinmultiplatformsandbox.android.core.ui.screens.HomeScreen
 
 @Composable
 fun RootNavGraph(navController: NavHostController = rememberNavController()) {
     NavHost(
         navController = navController,
-        route = NavDestinations.GraphsDestinations.ROOT,
-        startDestination = NavDestinations.GraphsDestinations.HOME
+        route = Destinations.RootGraph.GRAPH_ROUTE,
+        startDestination = Destinations.RootGraph.HomeGraph.GRAPH_ROUTE
     ) {
-        composable(route = NavDestinations.GraphsDestinations.HOME) {
+        composable(route = Destinations.RootGraph.HomeGraph.GRAPH_ROUTE) {
             HomeScreen()
         }
     }

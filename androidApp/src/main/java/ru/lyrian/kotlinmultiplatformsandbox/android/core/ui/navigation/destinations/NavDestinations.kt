@@ -1,19 +1,30 @@
 package ru.lyrian.kotlinmultiplatformsandbox.android.core.ui.navigation.destinations
 
-object NavDestinations {
-   object GraphsDestinations {
-      const val ROOT = "rootGraph"
-      const val HOME = "homeGraph"
-      const val DETAILS = "detailsGraph"
-   }
+object Destinations {
+   object RootGraph {
+      const val GRAPH_ROUTE = "rootGraph"
 
-   object HomeNavGraph {
-      const val LAUNCHES = "launchesList"
-      const val MEDIA = "media"
-      const val PROFILE = "profile"
-   }
+      object HomeGraph {
+         const val GRAPH_ROUTE = "homeGraph"
 
-   object DetailsNavGraph {
-      const val DETAILS = "launchDetails"
+         // Launches Bottom Nav Tab
+         const val LAUNCHES = "launchesHome"
+         object LaunchesDetailsGraph {
+            const val GRAPH_ROUTE = "launchesDetailsGraph"
+
+            const val DETAILS = "launchDetails"
+         }
+
+         // Videos Bottom Nav Tab
+         const val VIDEOS = "videosHome"
+         object VideoDetailsGraph {
+            const val GRAPH_ROUTE = "videoDetailsGraph"
+
+            const val DETAILS = "videoDetails"
+         }
+
+         // Profile Bottom Nav Tab
+         const val PROFILE = "profileHome"
+      }
    }
 }

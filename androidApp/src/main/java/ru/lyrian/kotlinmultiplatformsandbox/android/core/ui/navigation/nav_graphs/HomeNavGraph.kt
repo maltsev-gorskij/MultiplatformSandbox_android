@@ -7,7 +7,7 @@ import androidx.navigation.NavHostController
 import androidx.navigation.compose.NavHost
 import androidx.navigation.compose.composable
 import ru.lyrian.kotlinmultiplatformsandbox.android.core.ui.navigation.bottom_navigation.BottomNavItems
-import ru.lyrian.kotlinmultiplatformsandbox.android.core.ui.navigation.destinations.NavDestinations
+import ru.lyrian.kotlinmultiplatformsandbox.android.core.ui.navigation.destinations.Destinations.RootGraph.HomeGraph
 import ru.lyrian.kotlinmultiplatformsandbox.android.feature.launches_list.presentation.ui.LaunchesListScreen
 import ru.lyrian.kotlinmultiplatformsandbox.android.feature.launches_media.presentation.ui.LaunchesMediaScreen
 import ru.lyrian.kotlinmultiplatformsandbox.android.feature.profile.presentation.ui.ProfileScreen
@@ -19,18 +19,18 @@ fun HomeNavGraph(
 ) {
     NavHost(
         navController = navController,
-        route = NavDestinations.GraphsDestinations.HOME,
+        route = HomeGraph.GRAPH_ROUTE,
         startDestination = BottomNavItems.Launches.route,
         modifier = modifier.fillMaxSize()
     ) {
-        composable(NavDestinations.HomeNavGraph.LAUNCHES) {
+        composable(HomeGraph.LAUNCHES) {
             LaunchesListScreen(
-                onLaunchClick = { id ->
-                    navController.navigateToLaunchDetails(id)
+                onLaunchClick = {
+                    navController.navigate("${HomeGraph.LaunchesDetailsGraph.DETAILS}/$it")
                 }
             )
         }
-        composable(NavDestinations.HomeNavGraph.MEDIA) {
+        composable(HomeGraph.VIDEOS) {
             LaunchesMediaScreen(
                 modifier = Modifier.fillMaxSize(),
                 onFullScreenButtonClick = {
@@ -38,7 +38,7 @@ fun HomeNavGraph(
                 },
             )
         }
-        composable(NavDestinations.HomeNavGraph.PROFILE) {
+        composable(HomeGraph.PROFILE) {
             ProfileScreen(
                 modifier = Modifier.fillMaxSize()
             )
