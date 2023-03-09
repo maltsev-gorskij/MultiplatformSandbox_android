@@ -13,6 +13,9 @@ object Destinations {
             const val GRAPH_ROUTE = "launchesDetailsGraph"
 
             const val DETAILS = "launchDetails"
+            object DetailsArgs {
+               const val LAUNCH_ID = "launchId"
+            }
          }
 
          // Videos Bottom Nav Tab
@@ -21,6 +24,9 @@ object Destinations {
             const val GRAPH_ROUTE = "videoDetailsGraph"
 
             const val DETAILS = "videoDetails"
+            object DetailsArgs {
+               const val VIDEO_ID = "videoId"
+            }
          }
 
          // Profile Bottom Nav Tab

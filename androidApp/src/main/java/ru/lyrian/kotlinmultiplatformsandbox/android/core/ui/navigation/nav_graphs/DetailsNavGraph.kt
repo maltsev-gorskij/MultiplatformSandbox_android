@@ -6,17 +6,16 @@ import androidx.navigation.NavGraphBuilder
 import androidx.navigation.compose.composable
 import androidx.navigation.navigation
 import ru.lyrian.kotlinmultiplatformsandbox.android.core.ui.navigation.destinations.Destinations.RootGraph.HomeGraph.LaunchesDetailsGraph
-import ru.lyrian.kotlinmultiplatformsandbox.android.core.ui.navigation.destinations.NavDestinationsArgs.Details.LAUNCH_ID_ARG
-import ru.lyrian.kotlinmultiplatformsandbox.android.feature.launch_details.presentation.ui.LaunchDetailsScreen
+import ru.lyrian.kotlinmultiplatformsandbox.android.feature.launches.details.presentation.ui.LaunchDetailsScreen
 
-fun NavGraphBuilder.detailsNavGraph(
+fun NavGraphBuilder.launchDetailsNavGraph(
     onNavigateBack: () -> Unit
 ) {
     navigation(
         route = LaunchesDetailsGraph.GRAPH_ROUTE,
         startDestination = LaunchesDetailsGraph.DETAILS
     ) {
-        composable("${LaunchesDetailsGraph.DETAILS}/{$LAUNCH_ID_ARG}") {
+        composable("${LaunchesDetailsGraph.DETAILS}/{${LaunchesDetailsGraph.DetailsArgs.LAUNCH_ID}}") {
             LaunchDetailsScreen(
                 onNavigateBackClick = onNavigateBack,
                 modifier = Modifier.fillMaxSize()

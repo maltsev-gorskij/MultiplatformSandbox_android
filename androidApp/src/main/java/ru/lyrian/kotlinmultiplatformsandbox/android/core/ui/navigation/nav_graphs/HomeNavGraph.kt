@@ -8,9 +8,9 @@ import androidx.navigation.compose.NavHost
 import androidx.navigation.compose.composable
 import ru.lyrian.kotlinmultiplatformsandbox.android.core.ui.navigation.bottom_navigation.BottomNavItems
 import ru.lyrian.kotlinmultiplatformsandbox.android.core.ui.navigation.destinations.Destinations.RootGraph.HomeGraph
-import ru.lyrian.kotlinmultiplatformsandbox.android.feature.launches_list.presentation.ui.LaunchesListScreen
-import ru.lyrian.kotlinmultiplatformsandbox.android.feature.launches_media.presentation.ui.LaunchesMediaScreen
+import ru.lyrian.kotlinmultiplatformsandbox.android.feature.launches.list.presentation.ui.LaunchesListScreen
 import ru.lyrian.kotlinmultiplatformsandbox.android.feature.profile.presentation.ui.ProfileScreen
+import ru.lyrian.kotlinmultiplatformsandbox.android.feature.videos.list.presentation.ui.VideosScreen
 
 @Composable
 fun HomeNavGraph(
@@ -30,21 +30,28 @@ fun HomeNavGraph(
                 }
             )
         }
+
+        launchDetailsNavGraph(
+            onNavigateBack = { navController.popBackStack() }
+        )
+
         composable(HomeGraph.VIDEOS) {
-            LaunchesMediaScreen(
+            VideosScreen(
                 modifier = Modifier.fillMaxSize(),
                 onFullScreenButtonClick = {
-                    TODO("Perform navigate to full screen composable")
+                    navController.navigate("${HomeGraph.VideoDetailsGraph.DETAILS}/$it")
                 },
             )
         }
+
+        videoDetailsNavGraph(
+            onNavigateBack = { navController.popBackStack() }
+        )
+
         composable(HomeGraph.PROFILE) {
             ProfileScreen(
                 modifier = Modifier.fillMaxSize()
             )
         }
-        detailsNavGraph(
-            onNavigateBack = { navController.popBackStack() }
-        )
     }
 }
