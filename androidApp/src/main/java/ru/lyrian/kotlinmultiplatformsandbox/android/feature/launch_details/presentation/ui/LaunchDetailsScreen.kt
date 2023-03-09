@@ -35,7 +35,7 @@ import com.google.accompanist.pager.HorizontalPager
 import com.google.accompanist.pager.HorizontalPagerIndicator
 import com.google.accompanist.pager.rememberPagerState
 import org.koin.androidx.compose.getViewModel
-import ru.lyrian.kotlinmultiplatformsandbox.android.core.ui.composables.images.ImageFromUrl
+import ru.lyrian.kotlinmultiplatformsandbox.android.core.ui.composables.media.ImageFromUrl
 import ru.lyrian.kotlinmultiplatformsandbox.android.core.ui.screens.LocalSnackBarState
 import ru.lyrian.kotlinmultiplatformsandbox.android.feature.launch_details.presentation.model.LaunchDetailsEvent
 import ru.lyrian.kotlinmultiplatformsandbox.android.feature.launch_details.presentation.model.LaunchDetailsState

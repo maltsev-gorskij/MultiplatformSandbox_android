@@ -1,4 +1,4 @@
-package ru.lyrian.kotlinmultiplatformsandbox.android.core.ui.composables.images
+package ru.lyrian.kotlinmultiplatformsandbox.android.core.ui.composables.media
 
 import androidx.compose.foundation.layout.Box
 import androidx.compose.foundation.layout.fillMaxSize

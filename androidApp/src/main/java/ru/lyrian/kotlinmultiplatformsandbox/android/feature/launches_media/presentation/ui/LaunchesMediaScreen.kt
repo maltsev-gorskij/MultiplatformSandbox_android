@@ -6,35 +6,30 @@ import androidx.compose.foundation.layout.fillMaxSize
 import androidx.compose.foundation.layout.padding
 import androidx.compose.foundation.lazy.LazyColumn
 import androidx.compose.foundation.shape.RoundedCornerShape
-import androidx.compose.material.Card
 import androidx.compose.material.Scaffold
 import androidx.compose.runtime.Composable
 import androidx.compose.ui.Modifier
-import androidx.compose.ui.platform.LocalLifecycleOwner
 import androidx.compose.ui.unit.dp
-import androidx.compose.ui.viewinterop.AndroidView
-import com.pierfrancescosoffritti.androidyoutubeplayer.core.player.YouTubePlayer
-import com.pierfrancescosoffritti.androidyoutubeplayer.core.player.listeners.AbstractYouTubePlayerListener
-import com.pierfrancescosoffritti.androidyoutubeplayer.core.player.options.IFramePlayerOptions
-import com.pierfrancescosoffritti.androidyoutubeplayer.core.player.views.YouTubePlayerView
-import com.pierfrancescosoffritti.androidyoutubeplayer.core.ui.DefaultPlayerUiController
+import ru.lyrian.kotlinmultiplatformsandbox.android.core.ui.composables.media.YoutubeVideo
 
 private const val CornerShapePercent = 5
 
 @Composable
 fun LaunchesMediaScreen(
+    onFullScreenButtonClick: (String) -> Unit,
     modifier: Modifier = Modifier
 ) {
     Scaffold(modifier = modifier) {
         LaunchesMediaContent(
-            modifier = Modifier
-                .padding(it)
+            modifier = Modifier.padding(it),
+            onFullScreenButtonClick = onFullScreenButtonClick
         )
     }
 }
 
 @Composable
 private fun LaunchesMediaContent(
+    onFullScreenButtonClick: (String) -> Unit,
     modifier: Modifier = Modifier
 ) {
     val videsIds = listOf(
@@ -57,44 +52,12 @@ private fun LaunchesMediaContent(
                 videsIds[it]
             }
         ) {
-            YoutubeVideo(videoId = videsIds[it])
+            YoutubeVideo(
+                videoId = videsIds[it],
+                shape = RoundedCornerShape(CornerShapePercent),
+                elevation = 8.dp,
+                onFullScreenButtonClick = { onFullScreenButtonClick(videsIds[it]) }
+            )
         }
-    }
-}
-
-@Composable
-fun YoutubeVideo(
-    videoId: String
-) {
-    val lifecycle = LocalLifecycleOwner.current.lifecycle
-
-    Card(
-        shape = RoundedCornerShape(CornerShapePercent),
-        elevation = 8.dp
-    ) {
-        AndroidView(
-            factory = {
-                val view = YouTubePlayerView(it)
-
-                val listener = object : AbstractYouTubePlayerListener() {
-                    override fun onReady(youTubePlayer: YouTubePlayer) {
-                        super.onReady(youTubePlayer)
-
-                        view.setCustomPlayerUi(DefaultPlayerUiController(view, youTubePlayer).rootView)
-                        youTubePlayer.cueVideo(videoId, 0f)
-                    }
-                }
-
-                val iFramePlayerOptions = IFramePlayerOptions
-                    .Builder()
-                    .controls(0)
-                    .build()
-
-                lifecycle.addObserver(view)
-                view.enableAutomaticInitialization = false
-                view.initialize(listener, iFramePlayerOptions)
-                view
-            }
-        )
     }
 }

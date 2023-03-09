@@ -3,7 +3,7 @@ package ru.lyrian.kotlinmultiplatformsandbox.android.core.ui.navigation.destinat
 object NavDestinations {
    object HomeNavGraph {
       const val LAUNCHES = "launchesList"
-      const val FAVORITES = "launchesFavorites"
+      const val MEDIA = "media"
       const val PROFILE = "profile"
    }
 

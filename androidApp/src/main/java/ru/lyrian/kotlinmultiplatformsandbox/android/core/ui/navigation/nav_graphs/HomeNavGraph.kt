@@ -30,12 +30,15 @@ fun HomeNavGraph(
                 }
             )
         }
-        composable(NavDestinations.HomeNavGraph.FAVORITES) {
+        composable(NavDestinations.HomeNavGraph.MEDIA) {
             LaunchesMediaScreen(
-                modifier = Modifier.fillMaxSize()
+                modifier = Modifier.fillMaxSize(),
+                onFullScreenButtonClick = {
+                    TODO("Perform navigate to full screen composable")
+                },
             )
         }
-        composable(BottomNavItems.Profile.route) {
+        composable(NavDestinations.HomeNavGraph.PROFILE) {
             ProfileScreen(
                 modifier = Modifier.fillMaxSize()
             )

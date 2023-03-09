@@ -22,7 +22,7 @@ import dev.icerock.moko.resources.compose.stringResource
 fun BottomNavigationBar(navController: NavHostController) {
     val items = listOf(
         BottomNavItems.Launches,
-        BottomNavItems.Favorites,
+        BottomNavItems.Media,
         BottomNavItems.Profile
     )
 

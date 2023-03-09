@@ -11,10 +11,10 @@ sealed class BottomNavItems(val titleResource: StringResource, val icon: Int, va
         icon = R.drawable.ic_list,
         route = NavDestinations.HomeNavGraph.LAUNCHES
     )
-    object Favorites : BottomNavItems(
+    object Media : BottomNavItems(
         titleResource = Resources.strings.bottom_nav_media,
         icon = R.drawable.ic_media,
-        route = NavDestinations.HomeNavGraph.FAVORITES
+        route = NavDestinations.HomeNavGraph.MEDIA
     )
     object Profile : BottomNavItems(
         titleResource = Resources.strings.bottom_nav_profile,
