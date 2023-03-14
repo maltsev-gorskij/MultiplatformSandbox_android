@@ -1,5 +1,6 @@
 package ru.lyrian.kotlinmultiplatformsandbox.android.feature.profile.presentation.ui
 
+import android.annotation.SuppressLint
 import androidx.compose.foundation.layout.Arrangement
 import androidx.compose.foundation.layout.Box
 import androidx.compose.foundation.layout.Column
@@ -22,6 +23,7 @@ import org.koin.androidx.compose.getViewModel
 import ru.lyrian.kotlinmultiplatformsandbox.Resources
 import ru.lyrian.kotlinmultiplatformsandbox.android.feature.profile.presentation.viewmodel.ProfileViewModel
 
+@SuppressLint("UnusedMaterialScaffoldPaddingParameter")
 @Composable
 fun ProfileScreen(
     modifier: Modifier = Modifier
@@ -39,9 +41,7 @@ fun ProfileScreen(
             onUserNameChange = viewModel::updateUserName,
             onTextChange = viewModel::updateEncryptedText,
             onSaveClick = viewModel::saveProfile,
-            modifier = Modifier
-                .padding(it)
-                .fillMaxSize()
+            modifier = Modifier.fillMaxSize()
         )
     }
 }

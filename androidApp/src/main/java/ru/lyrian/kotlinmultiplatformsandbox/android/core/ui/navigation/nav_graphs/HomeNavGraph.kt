@@ -1,20 +1,18 @@
 package ru.lyrian.kotlinmultiplatformsandbox.android.core.ui.navigation.nav_graphs
 
-import androidx.compose.foundation.layout.Box
 import androidx.compose.foundation.layout.fillMaxSize
-import androidx.compose.material.Surface
-import androidx.compose.material.Text
+import androidx.compose.foundation.layout.padding
 import androidx.compose.runtime.Composable
-import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
-
 import androidx.navigation.NavHostController
 import androidx.navigation.compose.NavHost
 import androidx.navigation.compose.composable
 import ru.lyrian.kotlinmultiplatformsandbox.android.core.ui.navigation.bottom_navigation.BottomNavItems
-import ru.lyrian.kotlinmultiplatformsandbox.android.core.ui.navigation.destinations.NavDestinations
-import ru.lyrian.kotlinmultiplatformsandbox.android.feature.launches_list.presentation.ui.LaunchesListScreen
+import ru.lyrian.kotlinmultiplatformsandbox.android.core.ui.navigation.destinations.Destinations.RootGraph.HomeGraph
+import ru.lyrian.kotlinmultiplatformsandbox.android.core.ui.screens.LocalScaffoldPaddings
+import ru.lyrian.kotlinmultiplatformsandbox.android.feature.launches.list.presentation.ui.LaunchesListScreen
 import ru.lyrian.kotlinmultiplatformsandbox.android.feature.profile.presentation.ui.ProfileScreen
+import ru.lyrian.kotlinmultiplatformsandbox.android.feature.videos.list.presentation.ui.VideosScreen
 
 @Composable
 fun HomeNavGraph(
@@ -23,34 +21,41 @@ fun HomeNavGraph(
 ) {
     NavHost(
         navController = navController,
-        route = NavGraphsDestinations.HOME,
+        route = HomeGraph.GRAPH_ROUTE,
         startDestination = BottomNavItems.Launches.route,
         modifier = modifier.fillMaxSize()
     ) {
-        composable(NavDestinations.HomeNavGraph.LAUNCHES) {
+        composable(HomeGraph.LAUNCHES) {
             LaunchesListScreen(
-                onLaunchClick = { id ->
-                    navController.navigateToLaunchDetails(id)
+                modifier = Modifier.fillMaxSize().padding(LocalScaffoldPaddings.current),
+                onLaunchClick = {
+                    navController.navigate("${HomeGraph.LaunchesDetailsGraph.DETAILS}/$it")
                 }
             )
         }
-        composable(NavDestinations.HomeNavGraph.FAVORITES) {
-            Surface(modifier = Modifier.fillMaxSize()) {
-                Box {
-                    Text(
-                        modifier = Modifier.align(Alignment.Center),
-                        text = "Favorites placeholder"
-                    )
-                }
-            }
-        }
-        composable(BottomNavItems.Profile.route) {
-            ProfileScreen(
-                modifier = Modifier.fillMaxSize()
+
+        launchDetailsNavGraph(
+            onNavigateBack = { navController.popBackStack() },
+            onWatchVideoClick = { navController.navigate("${HomeGraph.VideoDetailsGraph.DETAILS}/$it") }
+        )
+
+        composable(HomeGraph.VIDEOS) {
+            VideosScreen(
+                modifier = Modifier.fillMaxSize().padding(LocalScaffoldPaddings.current),
+                onFullScreenButtonClick = {
+                    navController.navigate("${HomeGraph.VideoDetailsGraph.DETAILS}/$it")
+                },
             )
         }
-        detailsNavGraph(
+
+        videoDetailsNavGraph(
             onNavigateBack = { navController.popBackStack() }
         )
+
+        composable(HomeGraph.PROFILE) {
+            ProfileScreen(
+                modifier = Modifier.fillMaxSize().padding(LocalScaffoldPaddings.current),
+            )
+        }
     }
 }

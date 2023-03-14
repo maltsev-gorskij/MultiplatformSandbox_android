@@ -26,6 +26,7 @@ resources = "0.20.1"
 firebase_bom = "30.3.2"
 firebase_crashlytics_gradle = "2.9.4"
 google_services = "4.3.14"
+youtubeplayer = "11.1.0"
 
 [libraries]
 gradleplugins-android = { module = "com.android.tools.build:gradle", version.ref = "android_plugin" }
@@ -64,7 +65,6 @@ mockito = { module = "org.mockito:mockito-core", version.ref = "mockito" }
 android-core-testing = { module = "androidx.arch.core:core-testing", version.ref = "android_core_testing" }
 
 kmm-shared = { module = "ru.lyrian.kotlinmultiplatformsandbox:shared", version.ref = "kmm_module" }
-kmm-sharedfirebase = { module = "ru.lyrian.kotlinmultiplatformsandbox_firebase:shared_firebase", version.ref = "kmm_module" }
 
 resources-compose = { module = "dev.icerock.moko:resources-compose", version.ref = "resources" }
 
@@ -73,6 +73,8 @@ detekt-rules-compose = { module = "ru.kode:detekt-rules-compose", version.ref = 
 
 firebase-bom = { module = "com.google.firebase:firebase-bom", version.ref = "firebase_bom" }
 firebase-crashlytics = { module = "com.google.firebase:firebase-crashlytics-ktx" }
+
+youtubeplayer = { module = "com.pierfrancescosoffritti.androidyoutubeplayer:core", version.ref = "youtubeplayer"}
 
 [bundles]
 compose = [

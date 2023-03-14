@@ -82,10 +82,12 @@ android {
 dependencies {
     // Importing shared kmm logic from mavenLocal repo
     implementation(libs.kmm.shared)
-    implementation(libs.kmm.sharedfirebase)
 
     // All compose ui related dependencies bundle
     implementation(libs.bundles.compose)
+
+    // View based youtube player
+    implementation(libs.youtubeplayer)
 
     // Coroutines
     implementation(libs.coroutines.android)
