@@ -1,5 +1,6 @@
 package ru.lyrian.kotlinmultiplatformsandbox.android.feature.launches.list.presentation.ui
 
+import android.annotation.SuppressLint
 import androidx.compose.foundation.layout.Arrangement
 import androidx.compose.foundation.layout.Box
 import androidx.compose.foundation.layout.Column
@@ -16,9 +17,11 @@ import androidx.compose.material.Icon
 import androidx.compose.material.IconButton
 import androidx.compose.material.LocalTextStyle
 import androidx.compose.material.MaterialTheme
+import androidx.compose.material.Scaffold
 import androidx.compose.material.SnackbarDuration
 import androidx.compose.material.Surface
 import androidx.compose.material.Text
+import androidx.compose.material.TopAppBar
 import androidx.compose.material.icons.Icons
 import androidx.compose.material.icons.filled.Refresh
 import androidx.compose.material.pullrefresh.PullRefreshIndicator
@@ -37,12 +40,14 @@ import dev.icerock.moko.resources.compose.stringResource
 import org.koin.androidx.compose.getViewModel
 import ru.lyrian.kotlinmultiplatformsandbox.Resources
 import ru.lyrian.kotlinmultiplatformsandbox.android.R
+import ru.lyrian.kotlinmultiplatformsandbox.android.core.ui.screens.LocalScaffoldPaddings
 import ru.lyrian.kotlinmultiplatformsandbox.android.core.ui.screens.LocalSnackBarState
 import ru.lyrian.kotlinmultiplatformsandbox.android.feature.launches.list.presentation.model.LaunchesListState
 import ru.lyrian.kotlinmultiplatformsandbox.android.feature.launches.list.presentation.model.LaunchesUiWrapper
 import ru.lyrian.kotlinmultiplatformsandbox.android.feature.launches.list.presentation.viewmodel.LaunchesListViewModel
 import ru.lyrian.kotlinmultiplatformsandbox.feature.launches.domain.RocketLaunch
 
+@SuppressLint("UnusedMaterialScaffoldPaddingParameter")
 @Composable
 fun LaunchesListScreen(
     onLaunchClick: (String) -> Unit,
@@ -66,39 +71,27 @@ fun LaunchesListScreen(
         }
     }
 
-    Surface(
-        modifier = modifier,
-        color = Color.LightGray
+    Scaffold(
+        topBar = {
+            TopAppBar(
+                title = {
+                    Text(
+                        text = stringResource(resource = Resources.strings.launches_header_text),
+                        style = MaterialTheme.typography.h6
+                    )
+                }
+            )
+        }
     ) {
-        Column(
-            modifier = Modifier.fillMaxSize()
+        Surface(
+            modifier = modifier,
+            color = Color.LightGray
         ) {
-            LaunchesHeader()
             LaunchesList(
                 viewState = currentViewState,
                 onRefresh = viewModel::refresh,
                 onLoadNextPage = viewModel::loadNextPage,
                 onLaunchClick = onLaunchClick
-            )
-        }
-    }
-}
-
-@Composable
-private fun LaunchesHeader() {
-    Box(
-        Modifier.fillMaxWidth()
-    ) {
-        Surface(
-            modifier = Modifier.fillMaxWidth(),
-            color = MaterialTheme.colors.primary
-        ) {
-            Text(
-                modifier = Modifier
-                    .align(Alignment.CenterStart)
-                    .padding(16.dp),
-                text = stringResource(resource = Resources.strings.launches_header_text),
-                style = MaterialTheme.typography.h6
             )
         }
     }
@@ -147,9 +140,11 @@ private fun LaunchesListContent(
     onLoadNextPage: () -> Unit,
     onLaunchClick: (String) -> Unit
 ) {
+    val bottomPadding = LocalScaffoldPaddings.current.calculateBottomPadding()
+
     LazyColumn(
         modifier = Modifier.fillMaxSize(),
-        contentPadding = PaddingValues(vertical = 8.dp, horizontal = 8.dp),
+        contentPadding = PaddingValues(start = 8.dp, end = 8.dp, top = 8.dp, bottom = bottomPadding),
         verticalArrangement = Arrangement.spacedBy(12.dp)
     ) {
         if (isError) {

@@ -10,6 +10,7 @@ import androidx.compose.runtime.Composable
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.unit.dp
 import ru.lyrian.kotlinmultiplatformsandbox.android.core.ui.composables.media.YoutubeVideo
+import ru.lyrian.kotlinmultiplatformsandbox.android.core.ui.screens.LocalScaffoldPaddings
 
 private const val CornerShapePercent = 5
 
@@ -38,9 +39,11 @@ private fun VideosContent(
         "A0FZIwabctw"
     )
 
+    val bottomPadding = LocalScaffoldPaddings.current.calculateBottomPadding()
+
     LazyColumn(
         modifier = modifier.fillMaxSize(),
-        contentPadding = PaddingValues(vertical = 16.dp, horizontal = 16.dp),
+        contentPadding = PaddingValues(top = 16.dp, start = 16.dp, end = 16.dp, bottom = bottomPadding),
         verticalArrangement = Arrangement.spacedBy(16.dp)
     ) {
         items(

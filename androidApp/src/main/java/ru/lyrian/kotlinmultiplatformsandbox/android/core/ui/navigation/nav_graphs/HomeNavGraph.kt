@@ -27,7 +27,7 @@ fun HomeNavGraph(
     ) {
         composable(HomeGraph.LAUNCHES) {
             LaunchesListScreen(
-                modifier = Modifier.fillMaxSize().padding(LocalScaffoldPaddings.current),
+                modifier = Modifier.fillMaxSize(),
                 onLaunchClick = {
                     navController.navigate("${HomeGraph.LaunchesDetailsGraph.DETAILS}/$it")
                 }
@@ -41,7 +41,7 @@ fun HomeNavGraph(
 
         composable(HomeGraph.VIDEOS) {
             VideosScreen(
-                modifier = Modifier.fillMaxSize().padding(LocalScaffoldPaddings.current),
+                modifier = Modifier.fillMaxSize(),
                 onFullScreenButtonClick = {
                     navController.navigate("${HomeGraph.VideoDetailsGraph.DETAILS}/$it")
                 },
